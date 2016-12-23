@@ -44,6 +44,19 @@ namespace WargameLib
                 }
             }
         }
+        public List<WADImagePixel> GetPaletteColors()
+        {
+            if (Palette == null || Palette.Length < 512) return null;
+            var list = new List<WADImagePixel>();
+            for (int i = 0; i < 512; i += 2)
+            {
+                var pix = new WADImagePixel();
+                pix.Color[0] = Palette[i];
+                pix.Color[1] = Palette[i+1];
+                list.Add(pix);
+            }
+            return list;
+        }
 
         public override string ToString()
         {

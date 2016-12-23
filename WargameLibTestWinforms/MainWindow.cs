@@ -155,8 +155,47 @@ namespace WargameLibTestWinforms
                 g.DrawImage(b, new Rectangle(0, 0, (int)img.Width * _zoom, (int)img.Height * _zoom), new Rectangle(0, 0, (int)img.Width, (int)img.Height), GraphicsUnit.Pixel);
             }
 
-            buf.Render();
+            //buf.Render();
             buf.Render(panelImage.CreateGraphics());
+
+            // Color palette
+            buf = currentContext.Allocate(panelPalette.CreateGraphics(), panelPalette.DisplayRectangle);
+            g = buf.Graphics;
+            g.Clear(Color.LightGray);
+            int y = 32 * 10 + 32 + 1 - 1;
+            int x = 8 * 10 + 8 + 1 - 1;
+            g.DrawRectangle(Pens.Black, 0, 0, x, y);
+            for (int i = 1; i < 8; ++i)
+            {
+                g.DrawLine(Pens.Black, i * 10 + i, 0, i * 10 + i, y);
+            }
+            for (int i = 1; i < 32; ++i)
+            {
+                g.DrawLine(Pens.Black, 0, i * 10 + i, x, i * 10 + i);
+            }
+            if (img != null)
+            {
+                var paletteColors = img.GetPaletteColors();
+                int p = 0;
+                if (paletteColors != null)
+                {
+                    for (int i = 0; i < 32; ++i)
+                    for (int j = 0; j < 8; ++j)
+                    {
+                        using (var b = new SolidBrush(Color.FromArgb(
+                            255,
+                            paletteColors[p].R,
+                            paletteColors[p].G,
+                            paletteColors[p].B)))
+                        {
+                            g.FillRectangle(b, j*10+1+j,i*10+1+i,10,10);
+                        }
+                        ++p;
+                    }
+                }
+            }
+            //buf.Render();
+            buf.Render(panelPalette.CreateGraphics());
         }
 
         private void label1x_Click(object sender, EventArgs e)
@@ -209,6 +248,11 @@ namespace WargameLibTestWinforms
         {
             var dlg = new ExtractDirDialog();
             dlg.ShowDialog();
+        }
+
+        private void MainWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Alt) Invalidate();
         }
     }
 }
