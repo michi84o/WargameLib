@@ -41,13 +41,14 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(360, 13);
+            this.label1.Size = new System.Drawing.Size(360, 26);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Please enter the location of the directory or use one of the 3 options below:";
+            this.label1.Text = "Please enter the location of the directory or use one of the 3 options below.\r\nFi" +
+    "les will be searched recursively. You just have to select the top directory.";
             // 
             // textBoxDirectory
             // 
-            this.textBoxDirectory.Location = new System.Drawing.Point(12, 25);
+            this.textBoxDirectory.Location = new System.Drawing.Point(12, 38);
             this.textBoxDirectory.Name = "textBoxDirectory";
             this.textBoxDirectory.Size = new System.Drawing.Size(391, 20);
             this.textBoxDirectory.TabIndex = 1;
@@ -55,7 +56,7 @@
             // 
             // buttonOpenFileDialog
             // 
-            this.buttonOpenFileDialog.Location = new System.Drawing.Point(131, 51);
+            this.buttonOpenFileDialog.Location = new System.Drawing.Point(131, 61);
             this.buttonOpenFileDialog.Name = "buttonOpenFileDialog";
             this.buttonOpenFileDialog.Size = new System.Drawing.Size(126, 23);
             this.buttonOpenFileDialog.TabIndex = 2;
@@ -65,7 +66,7 @@
             // 
             // buttonFolderBrowser
             // 
-            this.buttonFolderBrowser.Location = new System.Drawing.Point(131, 80);
+            this.buttonFolderBrowser.Location = new System.Drawing.Point(131, 90);
             this.buttonFolderBrowser.Name = "buttonFolderBrowser";
             this.buttonFolderBrowser.Size = new System.Drawing.Size(126, 23);
             this.buttonFolderBrowser.TabIndex = 3;
@@ -77,7 +78,7 @@
             // 
             this.buttonOK.Enabled = false;
             this.buttonOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonOK.Location = new System.Drawing.Point(263, 51);
+            this.buttonOK.Location = new System.Drawing.Point(263, 61);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(140, 52);
             this.buttonOK.TabIndex = 4;
@@ -90,7 +91,7 @@
             this.labelDragDrop.AllowDrop = true;
             this.labelDragDrop.BackColor = System.Drawing.Color.White;
             this.labelDragDrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelDragDrop.Location = new System.Drawing.Point(12, 51);
+            this.labelDragDrop.Location = new System.Drawing.Point(12, 61);
             this.labelDragDrop.Name = "labelDragDrop";
             this.labelDragDrop.Size = new System.Drawing.Size(113, 52);
             this.labelDragDrop.TabIndex = 5;
@@ -103,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(415, 115);
+            this.ClientSize = new System.Drawing.Size(415, 122);
             this.Controls.Add(this.labelDragDrop);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonFolderBrowser);

@@ -34,7 +34,7 @@ namespace WargameLibTestWinforms
 
         void UpdateWADDirectory(string directory)
         {
-            var files = Directory.GetFiles(directory, "*.WAD");
+            var files = Directory.EnumerateFiles(directory, "*.WAD", SearchOption.AllDirectories);// Directory.GetFiles(directory, "*.WAD");
             var items = new List<FileNameItem>();
             foreach (var file in files)
                 items.Add(new FileNameItem() { FileName = file });
