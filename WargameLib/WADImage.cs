@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace WargameLib
+{
+    public abstract class WADImage
+    {
+        public string Name { get; set; }
+        public UInt32 Width { get; protected set; }
+        public UInt32 Height { get; protected set; }
+        public WADImagePixel[,] Pixels { get; protected set; }
+        protected byte[] _rawData;
+        public int RawDataSize
+        {
+            get
+            {
+                if (_rawData == null) return 0;
+                return _rawData.Length;
+            }
+        }
+
+        public byte[] GetHeader()
+        {
+            if (_rawData == null || _rawData.Length < 64) return null;
+            var b = new byte[64];
+            Array.Copy(_rawData, 0, b, 0, 64);
+            return b;
+        }
+
+        public UInt32 ColorPaletteIndex { get; protected set; }
+        public byte[] Palette { get; set; }
+        public void ApplyPalette()
+        {
+            if (Pixels == null || Palette == null) return;
+            for (int h = 0; h < Height; ++h)
+            {
+                for (int w = 0; w < Width; ++w)
+                {
+                    var pix = Pixels[h, w];
+                    pix.Color[0] = Palette[pix.PaletteValue * 2];
+                    pix.Color[1] = Palette[pix.PaletteValue * 2 + 1];
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Name) ? "<not set>" : Name;
+        }
+    }
+}

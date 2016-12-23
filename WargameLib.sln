@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargameLib", "WargameLib\WargameLib.csproj", "{3BB5D997-B17B-4066-A26B-8E74980B9774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargameLibTestWinforms", "WargameLibTestWinforms\WargameLibTestWinforms.csproj", "{59BD9473-77BF-4AE2-95BD-7ECE684C3479}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BB5D997-B17B-4066-A26B-8E74980B9774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB5D997-B17B-4066-A26B-8E74980B9774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB5D997-B17B-4066-A26B-8E74980B9774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB5D997-B17B-4066-A26B-8E74980B9774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59BD9473-77BF-4AE2-95BD-7ECE684C3479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59BD9473-77BF-4AE2-95BD-7ECE684C3479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59BD9473-77BF-4AE2-95BD-7ECE684C3479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59BD9473-77BF-4AE2-95BD-7ECE684C3479}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
