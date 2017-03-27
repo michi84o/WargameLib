@@ -21,3 +21,5 @@ Currently working:
 
 Next step:
 - View Levels
+
+Status: Project is on hold until I finished my other project on github.
