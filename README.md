@@ -23,3 +23,5 @@ Next step:
 - View Levels
 
 Status: Project is on hold until I finished my other project on github.
+
+![Screenshot of Testprogram](Images/screenshot1.png)
