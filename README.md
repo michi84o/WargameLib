@@ -22,6 +22,6 @@ Currently working:
 Next step:
 - View Levels
 
-Status: Project is on hold until I finished my other project on github.
+Status: Working on Level File Parser.
 
 ![Screenshot of Testprogram](Images/screenshot1.png)
