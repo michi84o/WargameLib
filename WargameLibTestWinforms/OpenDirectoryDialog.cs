@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -15,11 +16,12 @@ namespace WargameLibTestWinforms
         public OpenDirectoryDialog()
         {
             InitializeComponent();
+            textBoxDirectory.Text = Properties.Settings.Default.DatosDir;
         }
 
         private void textBoxDirectory_TextChanged(object sender, EventArgs e)
         {
-            buttonOK.Enabled = Directory.Exists(textBoxDirectory.Text);            
+            buttonOK.Enabled = Directory.Exists(textBoxDirectory.Text);
         }
 
         private void labelDragDrop_DragEnter(object sender, DragEventArgs e)
@@ -38,20 +40,14 @@ namespace WargameLibTestWinforms
             catch { }
         }
 
-        private void buttonOpenFileDialog_Click(object sender, EventArgs e)
-        {
-            var dlg = new OpenFileDialog();
-            dlg.Multiselect = false;
-            dlg.Filter = "Any File|*.*";
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                textBoxDirectory.Text = Path.GetDirectoryName(dlg.FileName);
-            }
-        }
-
         private void buttonFolderBrowser_Click(object sender, EventArgs e)
         {
             var dlg = new FolderBrowserDialog();
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.DatosDir))
+                dlg.SelectedPath = Properties.Settings.Default.DatosDir;
+            else
+                dlg.SelectedPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 textBoxDirectory.Text = dlg.SelectedPath;

@@ -22,5 +22,17 @@ namespace WargameLibTestWinforms.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DatosDir {
+            get {
+                return ((string)(this["DatosDir"]));
+            }
+            set {
+                this["DatosDir"] = value;
+            }
+        }
     }
 }

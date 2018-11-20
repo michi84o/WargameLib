@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBoxWADViewer = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.panelPalette = new System.Windows.Forms.Panel();
             this.buttonExportPng = new System.Windows.Forms.Button();
             this.label4x = new System.Windows.Forms.Label();
             this.label2x = new System.Windows.Forms.Label();
@@ -45,43 +46,49 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.extractDIRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chooseWADDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelPalette = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupBoxWADViewer.SuspendLayout();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label10 = new System.Windows.Forms.Label();
+            this.listBoxVolFiles = new System.Windows.Forms.ListBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbSelectedTile = new System.Windows.Forms.TextBox();
+            this.lbPolygons = new System.Windows.Forms.ListBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbSelectedPolygon = new System.Windows.Forms.TextBox();
+            this.lbVertices = new System.Windows.Forms.ListBox();
+            this.lbTiles = new System.Windows.Forms.ListBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.panelLevel = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBoxWADViewer
+            // label6
             // 
-            this.groupBoxWADViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBoxWADViewer.Controls.Add(this.label6);
-            this.groupBoxWADViewer.Controls.Add(this.panelPalette);
-            this.groupBoxWADViewer.Controls.Add(this.buttonExportPng);
-            this.groupBoxWADViewer.Controls.Add(this.label4x);
-            this.groupBoxWADViewer.Controls.Add(this.label2x);
-            this.groupBoxWADViewer.Controls.Add(this.label5);
-            this.groupBoxWADViewer.Controls.Add(this.label1x);
-            this.groupBoxWADViewer.Controls.Add(this.label4);
-            this.groupBoxWADViewer.Controls.Add(this.textBoxHeader);
-            this.groupBoxWADViewer.Controls.Add(this.label3);
-            this.groupBoxWADViewer.Controls.Add(this.panelImage);
-            this.groupBoxWADViewer.Controls.Add(this.label2);
-            this.groupBoxWADViewer.Controls.Add(this.listBoxWADContent);
-            this.groupBoxWADViewer.Controls.Add(this.label1);
-            this.groupBoxWADViewer.Controls.Add(this.listBoxFiles);
-            this.groupBoxWADViewer.Location = new System.Drawing.Point(12, 27);
-            this.groupBoxWADViewer.Name = "groupBoxWADViewer";
-            this.groupBoxWADViewer.Size = new System.Drawing.Size(660, 523);
-            this.groupBoxWADViewer.TabIndex = 0;
-            this.groupBoxWADViewer.TabStop = false;
-            this.groupBoxWADViewer.Text = "WAD Viewer";
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(897, 16);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Palette:";
+            // 
+            // panelPalette
+            // 
+            this.panelPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelPalette.BackColor = System.Drawing.Color.LightGray;
+            this.panelPalette.Location = new System.Drawing.Point(900, 32);
+            this.panelPalette.Name = "panelPalette";
+            this.panelPalette.Size = new System.Drawing.Size(89, 353);
+            this.panelPalette.TabIndex = 13;
             // 
             // buttonExportPng
             // 
             this.buttonExportPng.Enabled = false;
-            this.buttonExportPng.Location = new System.Drawing.Point(300, 12);
+            this.buttonExportPng.Location = new System.Drawing.Point(232, 6);
             this.buttonExportPng.Name = "buttonExportPng";
             this.buttonExportPng.Size = new System.Drawing.Size(99, 23);
             this.buttonExportPng.TabIndex = 12;
@@ -93,7 +100,7 @@
             // 
             this.label4x.BackColor = System.Drawing.Color.White;
             this.label4x.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4x.Location = new System.Drawing.Point(520, 14);
+            this.label4x.Location = new System.Drawing.Point(452, 8);
             this.label4x.Name = "label4x";
             this.label4x.Size = new System.Drawing.Size(30, 16);
             this.label4x.TabIndex = 11;
@@ -105,7 +112,7 @@
             // 
             this.label2x.BackColor = System.Drawing.Color.White;
             this.label2x.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2x.Location = new System.Drawing.Point(484, 14);
+            this.label2x.Location = new System.Drawing.Point(416, 8);
             this.label2x.Name = "label2x";
             this.label2x.Size = new System.Drawing.Size(30, 16);
             this.label2x.TabIndex = 10;
@@ -116,7 +123,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(405, 16);
+            this.label5.Location = new System.Drawing.Point(337, 10);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 13);
             this.label5.TabIndex = 9;
@@ -126,7 +133,7 @@
             // 
             this.label1x.BackColor = System.Drawing.Color.LightGreen;
             this.label1x.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1x.Location = new System.Drawing.Point(448, 14);
+            this.label1x.Location = new System.Drawing.Point(380, 8);
             this.label1x.Name = "label1x";
             this.label1x.Size = new System.Drawing.Size(30, 16);
             this.label1x.TabIndex = 8;
@@ -137,7 +144,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 331);
+            this.label4.Location = new System.Drawing.Point(6, 352);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 13);
             this.label4.TabIndex = 7;
@@ -146,7 +153,7 @@
             // textBoxHeader
             // 
             this.textBoxHeader.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxHeader.Location = new System.Drawing.Point(6, 347);
+            this.textBoxHeader.Location = new System.Drawing.Point(6, 368);
             this.textBoxHeader.Multiline = true;
             this.textBoxHeader.Name = "textBoxHeader";
             this.textBoxHeader.ReadOnly = true;
@@ -156,7 +163,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(135, 16);
+            this.label3.Location = new System.Drawing.Point(138, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 5;
@@ -168,15 +175,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelImage.BackColor = System.Drawing.Color.LightGray;
-            this.panelImage.Location = new System.Drawing.Point(138, 37);
+            this.panelImage.Location = new System.Drawing.Point(141, 32);
             this.panelImage.Name = "panelImage";
-            this.panelImage.Size = new System.Drawing.Size(413, 480);
+            this.panelImage.Size = new System.Drawing.Size(750, 506);
             this.panelImage.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 174);
+            this.label2.Location = new System.Drawing.Point(6, 195);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 13);
             this.label2.TabIndex = 3;
@@ -185,7 +192,7 @@
             // listBoxWADContent
             // 
             this.listBoxWADContent.FormattingEnabled = true;
-            this.listBoxWADContent.Location = new System.Drawing.Point(6, 190);
+            this.listBoxWADContent.Location = new System.Drawing.Point(6, 211);
             this.listBoxWADContent.Name = "listBoxWADContent";
             this.listBoxWADContent.Size = new System.Drawing.Size(126, 134);
             this.listBoxWADContent.TabIndex = 2;
@@ -194,7 +201,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 21);
+            this.label1.Location = new System.Drawing.Point(6, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 1;
@@ -203,9 +210,9 @@
             // listBoxFiles
             // 
             this.listBoxFiles.FormattingEnabled = true;
-            this.listBoxFiles.Location = new System.Drawing.Point(6, 37);
+            this.listBoxFiles.Location = new System.Drawing.Point(6, 32);
             this.listBoxFiles.Name = "listBoxFiles";
-            this.listBoxFiles.Size = new System.Drawing.Size(126, 134);
+            this.listBoxFiles.Size = new System.Drawing.Size(126, 160);
             this.listBoxFiles.TabIndex = 0;
             this.listBoxFiles.SelectedValueChanged += new System.EventHandler(this.listBoxFiles_SelectedValueChanged);
             // 
@@ -216,7 +223,7 @@
             this.chooseWADDirectoryToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(684, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1013, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -230,54 +237,196 @@
             // chooseWADDirectoryToolStripMenuItem
             // 
             this.chooseWADDirectoryToolStripMenuItem.Name = "chooseWADDirectoryToolStripMenuItem";
-            this.chooseWADDirectoryToolStripMenuItem.Size = new System.Drawing.Size(140, 20);
-            this.chooseWADDirectoryToolStripMenuItem.Text = "Choose WAD Directory";
-            this.chooseWADDirectoryToolStripMenuItem.Click += new System.EventHandler(this.chooseWADDirectoryToolStripMenuItem_Click);
+            this.chooseWADDirectoryToolStripMenuItem.Size = new System.Drawing.Size(149, 20);
+            this.chooseWADDirectoryToolStripMenuItem.Text = "Choose DATOS Directory";
+            this.chooseWADDirectoryToolStripMenuItem.Click += new System.EventHandler(this.chooseDatosDirectoryToolStripMenuItem_Click);
             // 
-            // panelPalette
+            // tabControl1
             // 
-            this.panelPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelPalette.BackColor = System.Drawing.Color.LightGray;
-            this.panelPalette.Location = new System.Drawing.Point(557, 37);
-            this.panelPalette.Name = "panelPalette";
-            this.panelPalette.Size = new System.Drawing.Size(89, 353);
-            this.panelPalette.TabIndex = 13;
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(0, 27);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1009, 573);
+            this.tabControl1.TabIndex = 15;
             // 
-            // label6
+            // tabPage1
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(554, 21);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(43, 13);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Palette:";
+            this.tabPage1.Controls.Add(this.label6);
+            this.tabPage1.Controls.Add(this.panelPalette);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.buttonExportPng);
+            this.tabPage1.Controls.Add(this.listBoxFiles);
+            this.tabPage1.Controls.Add(this.label4x);
+            this.tabPage1.Controls.Add(this.listBoxWADContent);
+            this.tabPage1.Controls.Add(this.label2x);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.textBoxHeader);
+            this.tabPage1.Controls.Add(this.label1x);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.panelImage);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1001, 547);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "WAD Viewer";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.panelLevel);
+            this.tabPage2.Controls.Add(this.label10);
+            this.tabPage2.Controls.Add(this.listBoxVolFiles);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.tbSelectedTile);
+            this.tabPage2.Controls.Add(this.lbPolygons);
+            this.tabPage2.Controls.Add(this.label9);
+            this.tabPage2.Controls.Add(this.tbSelectedPolygon);
+            this.tabPage2.Controls.Add(this.lbVertices);
+            this.tabPage2.Controls.Add(this.lbTiles);
+            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1001, 547);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Level Viewer";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 16);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(55, 13);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "VOL Files:";
+            // 
+            // listBoxVolFiles
+            // 
+            this.listBoxVolFiles.FormattingEnabled = true;
+            this.listBoxVolFiles.Location = new System.Drawing.Point(6, 32);
+            this.listBoxVolFiles.Name = "listBoxVolFiles";
+            this.listBoxVolFiles.Size = new System.Drawing.Size(155, 108);
+            this.listBoxVolFiles.TabIndex = 10;
+            this.listBoxVolFiles.SelectedValueChanged += new System.EventHandler(this.listBoxVolFiles_SelectedValueChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 143);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(50, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Polygons";
+            // 
+            // tbSelectedTile
+            // 
+            this.tbSelectedTile.Location = new System.Drawing.Point(167, 246);
+            this.tbSelectedTile.Multiline = true;
+            this.tbSelectedTile.Name = "tbSelectedTile";
+            this.tbSelectedTile.ReadOnly = true;
+            this.tbSelectedTile.Size = new System.Drawing.Size(155, 135);
+            this.tbSelectedTile.TabIndex = 9;
+            // 
+            // lbPolygons
+            // 
+            this.lbPolygons.FormattingEnabled = true;
+            this.lbPolygons.Location = new System.Drawing.Point(6, 159);
+            this.lbPolygons.Name = "lbPolygons";
+            this.lbPolygons.Size = new System.Drawing.Size(155, 108);
+            this.lbPolygons.TabIndex = 1;
+            this.lbPolygons.SelectedValueChanged += new System.EventHandler(this.lbPolygons_SelectedValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(164, 384);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(45, 13);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Vertices";
+            // 
+            // tbSelectedPolygon
+            // 
+            this.tbSelectedPolygon.Location = new System.Drawing.Point(6, 273);
+            this.tbSelectedPolygon.Multiline = true;
+            this.tbSelectedPolygon.Name = "tbSelectedPolygon";
+            this.tbSelectedPolygon.ReadOnly = true;
+            this.tbSelectedPolygon.Size = new System.Drawing.Size(155, 108);
+            this.tbSelectedPolygon.TabIndex = 4;
+            // 
+            // lbVertices
+            // 
+            this.lbVertices.FormattingEnabled = true;
+            this.lbVertices.Location = new System.Drawing.Point(167, 400);
+            this.lbVertices.Name = "lbVertices";
+            this.lbVertices.Size = new System.Drawing.Size(155, 69);
+            this.lbVertices.TabIndex = 7;
+            // 
+            // lbTiles
+            // 
+            this.lbTiles.FormattingEnabled = true;
+            this.lbTiles.Location = new System.Drawing.Point(167, 159);
+            this.lbTiles.Name = "lbTiles";
+            this.lbTiles.Size = new System.Drawing.Size(155, 82);
+            this.lbTiles.TabIndex = 5;
+            this.lbTiles.SelectedValueChanged += new System.EventHandler(this.lbTiles_SelectedValueChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(164, 143);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 13);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "Tiles";
+            // 
+            // panelLevel
+            // 
+            this.panelLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelLevel.BackColor = System.Drawing.Color.LightGray;
+            this.panelLevel.Location = new System.Drawing.Point(328, 16);
+            this.panelLevel.Name = "panelLevel";
+            this.panelLevel.Size = new System.Drawing.Size(667, 524);
+            this.panelLevel.TabIndex = 12;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 562);
-            this.Controls.Add(this.groupBoxWADViewer);
+            this.ClientSize = new System.Drawing.Size(1013, 601);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(700, 600);
             this.Name = "MainWindow";
             this.ShowIcon = false;
             this.Text = "Wargame Library Test";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyUp);
-            this.groupBoxWADViewer.ResumeLayout(false);
-            this.groupBoxWADViewer.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBoxWADViewer;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem extractDIRToolStripMenuItem;
         private System.Windows.Forms.Label label2;
@@ -296,6 +445,20 @@
         private System.Windows.Forms.Button buttonExportPng;
         private System.Windows.Forms.Panel panelPalette;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbSelectedTile;
+        private System.Windows.Forms.ListBox lbPolygons;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbSelectedPolygon;
+        private System.Windows.Forms.ListBox lbVertices;
+        private System.Windows.Forms.ListBox lbTiles;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ListBox listBoxVolFiles;
+        private System.Windows.Forms.Panel panelLevel;
     }
 }
 
