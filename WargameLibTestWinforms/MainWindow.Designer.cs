@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label6 = new System.Windows.Forms.Label();
             this.panelPalette = new System.Windows.Forms.Panel();
             this.buttonExportPng = new System.Windows.Forms.Button();
@@ -49,6 +50,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panelLevel = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.listBoxVolFiles = new System.Windows.Forms.ListBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -59,11 +61,18 @@
             this.lbVertices = new System.Windows.Forms.ListBox();
             this.lbTiles = new System.Windows.Forms.ListBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.panelLevel = new System.Windows.Forms.Panel();
+            this.panelLevelScroll = new System.Windows.Forms.Panel();
+            this.labelZoomLevel14 = new System.Windows.Forms.Label();
+            this.labelZoomLevel12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.labelZoomLevel1 = new System.Windows.Forms.Label();
+            this.UiUpdater = new System.Windows.Forms.Timer(this.components);
+            this.tbSelectedVol = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.panelLevelScroll.SuspendLayout();
             this.SuspendLayout();
             // 
             // label6
@@ -281,7 +290,11 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.panelLevel);
+            this.tabPage2.Controls.Add(this.tbSelectedVol);
+            this.tabPage2.Controls.Add(this.labelZoomLevel14);
+            this.tabPage2.Controls.Add(this.labelZoomLevel12);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.labelZoomLevel1);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.listBoxVolFiles);
             this.tabPage2.Controls.Add(this.label7);
@@ -292,6 +305,7 @@
             this.tabPage2.Controls.Add(this.lbVertices);
             this.tabPage2.Controls.Add(this.lbTiles);
             this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Controls.Add(this.panelLevelScroll);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -299,6 +313,14 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Level Viewer";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // panelLevel
+            // 
+            this.panelLevel.BackColor = System.Drawing.Color.LightGray;
+            this.panelLevel.Location = new System.Drawing.Point(3, 3);
+            this.panelLevel.Name = "panelLevel";
+            this.panelLevel.Size = new System.Drawing.Size(654, 528);
+            this.panelLevel.TabIndex = 12;
             // 
             // label10
             // 
@@ -389,16 +411,76 @@
             this.label8.TabIndex = 6;
             this.label8.Text = "Tiles";
             // 
-            // panelLevel
+            // panelLevelScroll
             // 
-            this.panelLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.panelLevelScroll.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelLevel.BackColor = System.Drawing.Color.LightGray;
-            this.panelLevel.Location = new System.Drawing.Point(328, 16);
-            this.panelLevel.Name = "panelLevel";
-            this.panelLevel.Size = new System.Drawing.Size(667, 524);
-            this.panelLevel.TabIndex = 12;
+            this.panelLevelScroll.AutoScroll = true;
+            this.panelLevelScroll.Controls.Add(this.panelLevel);
+            this.panelLevelScroll.Location = new System.Drawing.Point(335, 6);
+            this.panelLevelScroll.Name = "panelLevelScroll";
+            this.panelLevelScroll.Size = new System.Drawing.Size(660, 534);
+            this.panelLevelScroll.TabIndex = 13;
+            // 
+            // labelZoomLevel14
+            // 
+            this.labelZoomLevel14.BackColor = System.Drawing.Color.White;
+            this.labelZoomLevel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelZoomLevel14.Location = new System.Drawing.Point(297, 7);
+            this.labelZoomLevel14.Name = "labelZoomLevel14";
+            this.labelZoomLevel14.Size = new System.Drawing.Size(30, 16);
+            this.labelZoomLevel14.TabIndex = 17;
+            this.labelZoomLevel14.Text = "1/4";
+            this.labelZoomLevel14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelZoomLevel14.Click += new System.EventHandler(this.labelZoomLevel14_Click);
+            // 
+            // labelZoomLevel12
+            // 
+            this.labelZoomLevel12.BackColor = System.Drawing.Color.White;
+            this.labelZoomLevel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelZoomLevel12.Location = new System.Drawing.Point(261, 7);
+            this.labelZoomLevel12.Name = "labelZoomLevel12";
+            this.labelZoomLevel12.Size = new System.Drawing.Size(30, 16);
+            this.labelZoomLevel12.TabIndex = 16;
+            this.labelZoomLevel12.Text = "1/2x";
+            this.labelZoomLevel12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelZoomLevel12.Click += new System.EventHandler(this.labelZoomLevel12_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(182, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(37, 13);
+            this.label13.TabIndex = 15;
+            this.label13.Text = "Zoom:";
+            // 
+            // labelZoomLevel1
+            // 
+            this.labelZoomLevel1.BackColor = System.Drawing.Color.LightGreen;
+            this.labelZoomLevel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelZoomLevel1.Location = new System.Drawing.Point(225, 7);
+            this.labelZoomLevel1.Name = "labelZoomLevel1";
+            this.labelZoomLevel1.Size = new System.Drawing.Size(30, 16);
+            this.labelZoomLevel1.TabIndex = 14;
+            this.labelZoomLevel1.Text = "1";
+            this.labelZoomLevel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelZoomLevel1.Click += new System.EventHandler(this.labelZoomLevel1_Click);
+            // 
+            // UiUpdater
+            // 
+            this.UiUpdater.Enabled = true;
+            this.UiUpdater.Tick += new System.EventHandler(this.UiUpdater_Tick);
+            // 
+            // tbSelectedVol
+            // 
+            this.tbSelectedVol.Location = new System.Drawing.Point(167, 32);
+            this.tbSelectedVol.Multiline = true;
+            this.tbSelectedVol.Name = "tbSelectedVol";
+            this.tbSelectedVol.ReadOnly = true;
+            this.tbSelectedVol.Size = new System.Drawing.Size(155, 108);
+            this.tbSelectedVol.TabIndex = 18;
             // 
             // MainWindow
             // 
@@ -421,6 +503,7 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.panelLevelScroll.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -459,6 +542,13 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListBox listBoxVolFiles;
         private System.Windows.Forms.Panel panelLevel;
+        private System.Windows.Forms.Panel panelLevelScroll;
+        private System.Windows.Forms.Label labelZoomLevel14;
+        private System.Windows.Forms.Label labelZoomLevel12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label labelZoomLevel1;
+        private System.Windows.Forms.Timer UiUpdater;
+        private System.Windows.Forms.TextBox tbSelectedVol;
     }
 }
 

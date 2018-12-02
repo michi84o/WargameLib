@@ -45,11 +45,15 @@ namespace WargameLibTestWinforms
             if (Directory.Exists(recursos))
             {
                 files.AddRange(Directory.EnumerateFiles(recursos, "*.WAD", SearchOption.AllDirectories));
+                // TODO: The used RLE format cannot be read ad the moment
+                // files.AddRange(Directory.EnumerateFiles(recursos, "*.RLE", SearchOption.AllDirectories));
             }
             var fonts = Path.Combine(directory, "FONTS");
             if (Directory.Exists(fonts))
             {
                 files.AddRange(Directory.EnumerateFiles(fonts, "*.WAD", SearchOption.AllDirectories));
+                // TODO: The used RLE format cannot be read ad the moment
+                // files.AddRange(Directory.EnumerateFiles(fonts, "*.RLE", SearchOption.AllDirectories));
             }
             var items = new List<FileNameItem>();
             foreach (var file in files)
@@ -89,13 +93,28 @@ namespace WargameLibTestWinforms
             listBoxWADContent.DataSource = null;
             var value = listBoxFiles.SelectedValue as FileNameItem;
             if (value == null) return;
+
+            // TODO: RLE files use a special form of the Windows Bitmap format. Need a different decoder.
+            //if (value.FileName.EndsWith(".RLE",StringComparison.OrdinalIgnoreCase))
+            //{
+            //    listBoxWADContent.DataSource = null;
+            //    try
+            //    {
+            //        // Not a wad. Show image directly
+            //        List<WADImage> list = new List<WADImage>();
+            //        var bytes = File.ReadAllBytes(value.FileName);
+            //        list.Add(new RLE(bytes));
+            //        listBoxWADContent.DataSource = list;
+            //    }
+            //    catch {  }
+            //    return;
+            //}
             listBoxWADContent.DataSource = WAD.Extract(value.FileName);
         }
 
         private void listBoxWADContent_SelectedValueChanged(object sender, EventArgs e)
         {
             textBoxHeader.Text = "";
-            Invalidate();
 
             var img = listBoxWADContent.SelectedValue as WADImage;
             buttonExportPng.Enabled = (img != null);
@@ -162,9 +181,11 @@ namespace WargameLibTestWinforms
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            _lastUiUpdate = DateTime.UtcNow;
             base.OnPaint(e);
 
             // TODO: Doing this in OnPaint is inefficient
+            // Need to implement this directly in a derived panel class
             if (tabControl1.SelectedIndex == 0)
             {
 
@@ -231,6 +252,60 @@ namespace WargameLibTestWinforms
                 }
                 //buf.Render();
                 buf.Render(panelPalette.CreateGraphics());
+                buf.Dispose();
+            }
+            else if (tabControl1.SelectedIndex == 1)
+            {
+                var vol = _vol;
+                var div = levelZoomDivider;
+
+                int centerOffsetX = 0;
+                int centerOffsetY = 0;
+
+                if (vol != null)
+                {
+                    panelLevel.Width = (vol.XMax - vol.XMin)/div;
+                    panelLevel.Height = (vol.YMax - vol.YMin)/div;
+                    if (vol.XMin < 0) centerOffsetX = -1 * vol.XMin; // div is applied later
+                    if (vol.YMin < 0) centerOffsetY = -1 * vol.YMin;
+                }
+
+                // Double Buffering
+                BufferedGraphicsContext currentContext = BufferedGraphicsManager.Current;
+                BufferedGraphics buf = currentContext.Allocate(panelLevel.CreateGraphics(), panelLevel.DisplayRectangle);
+                var g = buf.Graphics;
+
+                g.Clear(Color.LightGray);
+                //g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+
+                // Read the VOL structure and place sprites
+
+                if (vol != null)
+                {
+                    foreach (var poly in vol.Polys)
+                    {
+                        var x0 = poly.Center.X + centerOffsetX;
+                        var y0 = poly.Center.Y + centerOffsetY;
+                        if (poly.Vertices.Count > 1)
+                        {
+                            WargameLib.Point prev;
+                            WargameLib.Point cur;
+                            for (int i = 1; i < poly.Vertices.Count; ++i)
+                            {
+                                prev = poly.Vertices[i-1];
+                                cur = poly.Vertices[i];
+                                g.DrawLine(Pens.Blue, (x0 + prev.X) / div, (y0 + prev.Y) / div, (x0 + cur.X) / div, (y0 + cur.Y) / div);
+                            }
+                            prev = poly.Vertices[poly.Vertices.Count - 1];
+                            cur = poly.Vertices[0];
+                            g.DrawLine(Pens.Blue, (x0 + prev.X) / div, (y0 + prev.Y) / div, (x0 + cur.X) / div, (y0 + cur.Y) / div);
+                        }
+                    }
+                }
+
+                buf.Render(panelLevel.CreateGraphics());
+                buf.Dispose();
             }
         }
 
@@ -240,7 +315,6 @@ namespace WargameLibTestWinforms
             label1x.BackColor = Color.LightGreen;
             label2x.BackColor = Color.White;
             label4x.BackColor = Color.White;
-            Invalidate();
         }
 
         private void label2x_Click(object sender, EventArgs e)
@@ -249,7 +323,7 @@ namespace WargameLibTestWinforms
             label1x.BackColor = Color.White;
             label2x.BackColor = Color.LightGreen;
             label4x.BackColor = Color.White;
-            Invalidate();
+
         }
 
         private void label4x_Click(object sender, EventArgs e)
@@ -258,7 +332,7 @@ namespace WargameLibTestWinforms
             label1x.BackColor = Color.White;
             label2x.BackColor = Color.White;
             label4x.BackColor = Color.LightGreen;
-            Invalidate();
+
         }
 
         private void buttonExportPng_Click(object sender, EventArgs e)
@@ -383,7 +457,12 @@ namespace WargameLibTestWinforms
 
         private void listBoxVolFiles_SelectedValueChanged(object sender, EventArgs e)
         {
+
             var item = listBoxVolFiles.SelectedValue as FileNameItem;
+
+            _vol = null;
+            lbPolygons.DataSource = null;
+            tbSelectedVol.Text = "";
 
             if (item == null)
             {
@@ -395,12 +474,14 @@ namespace WargameLibTestWinforms
             {
                 _vol = new VOL(item.FileName);
                 lbPolygons.DataSource = _vol.Polys;
+                tbSelectedVol.Text =
+                    "Width: " + _vol.Width + "\r\nHeight: " + _vol.Height +
+                    "\r\nLimits: {"+_vol.XMin+";"+_vol.YMin+ "}-{" + _vol.XMax + ";" + _vol.YMax + "}";
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void lbPolygons_SelectedValueChanged(object sender, EventArgs e)
@@ -422,6 +503,49 @@ namespace WargameLibTestWinforms
                 UpdateWADDirectory(path);
         }
 
+        int levelZoomDivider = 1;
 
+        private void labelZoomLevel1_Click(object sender, EventArgs e)
+        {
+            levelZoomDivider = 1;
+            labelZoomLevel1.BackColor = Color.LightGreen;
+            labelZoomLevel12.BackColor = Color.White;
+            labelZoomLevel14.BackColor = Color.White;
+
+        }
+
+        private void labelZoomLevel12_Click(object sender, EventArgs e)
+        {
+            levelZoomDivider = 2;
+            labelZoomLevel1.BackColor = Color.White;
+            labelZoomLevel12.BackColor = Color.LightGreen;
+            labelZoomLevel14.BackColor = Color.White;
+        }
+
+        private void labelZoomLevel14_Click(object sender, EventArgs e)
+        {
+            levelZoomDivider = 4;
+            labelZoomLevel1.BackColor = Color.White;
+            labelZoomLevel12.BackColor = Color.White;
+            labelZoomLevel14.BackColor = Color.LightGreen;
+        }
+
+        DateTime _lastUiUpdate = DateTime.UtcNow;
+        private void UiUpdater_Tick(object sender, EventArgs e)
+        {
+            if ((DateTime.UtcNow - _lastUiUpdate).TotalMilliseconds > 100)
+            {
+                if (tabControl1.SelectedIndex == 0)
+                {
+                    if (listBoxWADContent.SelectedIndex >= 0)
+                        Invalidate();
+                }
+                else if (tabControl1.SelectedIndex == 1)
+                {
+                    if (listBoxVolFiles.SelectedIndex >= 0)
+                        Invalidate();
+                }
+            }
+        }
     }
 }

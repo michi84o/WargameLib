@@ -23,7 +23,18 @@ namespace WargameLib
     /// </summary>
     public class VOL
     {
+        /// <summary>Determined by content.</summary>
+        public int XMin { get; private set; }
+        /// <summary>Determined by content.</summary>
+        public int XMax { get; private set; }
+        /// <summary>Determined by content.</summary>
+        public int YMin { get; private set; }
+        /// <summary>Determined by content.</summary>
+        public int YMax { get; private set; }
+
+        /// <summary>Width that was used in the VOL file (MAPDIMXY).</summary>
         public int Width { get; private set; }
+        /// <summary>Height that was used in the VOL file (MAPDIMXY).</summary>
         public int Height { get; private set; }
 
         public List<MapPolygon> Polys { get; } = new List<MapPolygon>();
@@ -257,6 +268,29 @@ namespace WargameLib
             if (tilesToGo > 0) throw new Exception("Missing tile definition for previous polygon (line " + linecnt + ")");
             if (verticesToGo > 0) throw new Exception("Missing POINT definition for previous polygon (line " + linecnt + ")");
 
+            // Determine real borders of map:
+            XMin = 0;
+            XMax = Width;
+            YMin = 0;
+            YMax = Height;
+            foreach (var p in Polys)
+            {
+                var x0 = p.Center.X;
+                var y0 = p.Center.Y;
+                AdjustLimits(x0, y0);
+                foreach (var t in p.Tiles)
+                {
+                    // TODO: Not sure if correct:
+                    //AdjustLimits(x0 + t.Position.X, y0 + t.Position.Y);
+                    //AdjustLimits(x0 + t.Position.X + t.Width, y0 + t.Position.Y + t.Height);
+                }
+                foreach (var v in p.Vertices)
+                {
+                    AdjustLimits(x0 + v.X, y0 + v.Y);
+                }
+            }
+
+
             // There should be a final '}' to close the definition
             while (!reader.EndOfStream)
             {
@@ -270,6 +304,15 @@ namespace WargameLib
                 }
             }
             throw new Exception("Closing '}' not found at the end.");
+
+        }
+
+        void AdjustLimits(int x, int y)
+        {
+            if (x < XMin) XMin = x;
+            if (x > XMax) XMax = x;
+            if (y < YMin) YMin = y;
+            if (y > YMax) YMax = y;
         }
 
         string[] GetParameters(string line, int linecnt)

@@ -8,25 +8,25 @@ namespace WargameLib
 {
     /*
     * WAD RLE File Format:
-    * 
+    *
     * Header:
     * +-------------+----+
-    * | Name        | 32 | null terminated    
-    * | Size        |  8 | 
+    * | Name        | 32 | null terminated
+    * | Size        |  8 |
     * | Unknown     |  8 | Starts with 03 00 00 00 // Use as RLE flag
     * | Height      |  4 |
-    * | Width       |  4 | 
+    * | Width       |  4 |
     * | Color depth |  2 | 08 00
     * | Unkown      |  6 | 00 00 04 00 00 00
     * +-------------+----+
-    * 
+    *
     * Pixel Data:
     * Transparent pixel:      FF + Count, Example: FF 05 = 5 transparent pixels
     * Semi-Transparent pixel: FE + Count + Palette values
     *                Example: FE 04 01 02 03 04 = 4 Semi transparent pixels
     * Opaque pixels have no identifier. Just their count and palette value is used
      *               Example: 02 0A 0B = 2 pixels
-    * 
+    *
     * Line Offsets:
     * +------------------------+---+
     * | Size of following data | 4 | Including Name, Width, ...
@@ -34,9 +34,9 @@ namespace WargameLib
     * | Width                  | 4 | Same as in header
     * | Height                 | 4 | Same as in header
     * +------------------------+---+
-    * Offset data: Data is 4 byte long. 
+    * Offset data: Data is 4 byte long.
     * Each line has its own value, so number of values is same as height.
-    * 
+    *
     * Color Palette Index:
     * 4 byte value containing the index of the color palette of the WAD file.
     * 1 = 00 00 00 01
@@ -203,7 +203,7 @@ namespace WargameLib
                 (UInt32)_rawData[start++] << 16 |
                 (UInt32)_rawData[start++] << 24;
 
-            // Read the pixels            
+            // Read the pixels
             var pixels = new WADImagePixel[Width * Height];
             int currentPixel = 0;
             int max = 64 + dataSize;

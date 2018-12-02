@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargameLib", "WargameLib\Wa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargameLibTestWinforms", "WargameLibTestWinforms\WargameLibTestWinforms.csproj", "{59BD9473-77BF-4AE2-95BD-7ECE684C3479}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WargameLibLevelViewer", "WargameLibLevelViewer\WargameLibLevelViewer.csproj", "{80491DA4-78FA-48DD-9A9F-27A8FA4A46DB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{59BD9473-77BF-4AE2-95BD-7ECE684C3479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59BD9473-77BF-4AE2-95BD-7ECE684C3479}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59BD9473-77BF-4AE2-95BD-7ECE684C3479}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80491DA4-78FA-48DD-9A9F-27A8FA4A46DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80491DA4-78FA-48DD-9A9F-27A8FA4A46DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80491DA4-78FA-48DD-9A9F-27A8FA4A46DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80491DA4-78FA-48DD-9A9F-27A8FA4A46DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
