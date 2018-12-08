@@ -8,6 +8,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WargameLib;
 
@@ -18,6 +20,9 @@ namespace WargameLibTestWinforms
 {
     public partial class MainWindow : Form
     {
+        Dictionary<string, WADImage> _wadIndex = new Dictionary<string, WADImage>();
+        CancellationTokenSource _wadIndexCancel;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -57,19 +62,26 @@ namespace WargameLibTestWinforms
             }
             var items = new List<FileNameItem>();
             foreach (var file in files)
+            {
                 items.Add(new FileNameItem() { FileName = file });
+            }
             listBoxFiles.DataSource = items;
 
-            // Search Level Files
+            CreateWadIndex(files.ToList()); // Creates background Task that uses the list
             files.Clear();
+
+            // Search Level Files
             var misiones = Path.Combine(directory, "MISIONES");
             if (Directory.Exists(recursos))
             {
                 files.AddRange(Directory.EnumerateFiles(misiones, "*.VOL", SearchOption.AllDirectories));
             }
+
             items = new List<FileNameItem>();
             foreach (var file in files)
+            {
                 items.Add(new FileNameItem() { FileName = file });
+            }
             listBoxVolFiles.DataSource = items;
         }
 
@@ -87,6 +99,33 @@ namespace WargameLibTestWinforms
         #endregion
 
         #region WAD and Export
+
+        void CreateWadIndex(List<string> files)
+        {
+            // TODO: Takes too much memory
+            //Task.Run(() =>
+            //{
+            //    Debug.WriteLine("WAD Indexing started...");
+            //    _wadIndexCancel?.Cancel();
+            //    lock (_wadIndex)
+            //    {
+            //        var src = new CancellationTokenSource();
+            //        var token = src.Token;
+            //        _wadIndexCancel = src;
+            //        _wadIndex.Clear();
+
+            //        foreach (var file in files)
+            //        {
+            //            if (token.IsCancellationRequested) return;
+            //            var wadFiles = WAD.Extract(file);
+            //            foreach (var wad in wadFiles)
+            //                _wadIndex[wad.Name] = wad;
+            //        }
+            //        _wadIndexCancel = null;
+            //    }
+            //    Debug.WriteLine("WAD Indexing finished!");
+            //});
+        }
 
         private void listBoxFiles_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -201,14 +240,17 @@ namespace WargameLibTestWinforms
                 var img = listBoxWADContent.SelectedValue as WADImage;
                 if (img != null)
                 {
-                    Bitmap b = new Bitmap((int)img.Width, (int)img.Height);
-                    for (int h = 0; h < img.Height; ++h)
-                        for (int w = 0; w < img.Width; ++w)
-                        {
-                            var pix = img.Pixels[h, w];
-                            b.SetPixel(w, h, Color.FromArgb(pix.Opacity, pix.R, pix.G, pix.B));
-                        }
-                    g.DrawImage(b, new Rectangle(0, 0, (int)img.Width * _zoom, (int)img.Height * _zoom), new Rectangle(0, 0, (int)img.Width, (int)img.Height), GraphicsUnit.Pixel);
+                    //Bitmap b = new Bitmap((int)img.Width, (int)img.Height);
+                    //for (int h = 0; h < img.Height; ++h)
+                    //    for (int w = 0; w < img.Width; ++w)
+                    //    {
+                    //        var pix = img.Pixels[h, w];
+                    //        b.SetPixel(w, h, Color.FromArgb(pix.Opacity, pix.R, pix.G, pix.B));
+                    //    }
+                    using (var b = GetUnscaledBitmap(img))
+                    {
+                        g.DrawImage(b, new Rectangle(0, 0, (int)img.Width * _zoom, (int)img.Height * _zoom), new Rectangle(0, 0, (int)img.Width, (int)img.Height), GraphicsUnit.Pixel);
+                    }
                 }
 
                 //buf.Render();
@@ -287,6 +329,23 @@ namespace WargameLibTestWinforms
                     {
                         var x0 = poly.Center.X + centerOffsetX;
                         var y0 = poly.Center.Y + centerOffsetY;
+
+                        // TODO: Result looks very random
+                        // Bad performance
+                        //foreach (var tile in poly.Tiles)
+                        //{
+                        //    if (tile.SpriteName.StartsWith("-")) continue; // Tile set to invisible
+                        //    if (_wadIndex.TryGetValue(tile.SpriteName, out var wadImg))
+                        //    {
+                        //        using (var b = GetUnscaledBitmap(wadImg))
+                        //        {
+                        //            g.DrawImage(b,
+                        //                new Rectangle((x0 + tile.Position.X) / div, (y0 + tile.Position.Y) / div, (int)wadImg.Width / div, (int)wadImg.Height / div),
+                        //                new Rectangle(0, 0, (int)wadImg.Width, (int)wadImg.Height), GraphicsUnit.Pixel);
+                        //        }
+                        //    }
+                        //}
+
                         if (poly.Vertices.Count > 1)
                         {
                             WargameLib.Point prev;
@@ -307,7 +366,31 @@ namespace WargameLibTestWinforms
                 buf.Render(panelLevel.CreateGraphics());
                 buf.Dispose();
             }
+            _lastUiUpdate = DateTime.UtcNow;
         }
+
+        // TODO: We need to buffer these
+        Bitmap GetUnscaledBitmap(WADImage image)
+        {
+            Bitmap b = new Bitmap((int)image.Width, (int)image.Height);
+            for (int h = 0; h < image.Height; ++h)
+                for (int w = 0; w < image.Width; ++w)
+                {
+                    var pix = image.Pixels[h, w];
+                    b.SetPixel(w, h, Color.FromArgb(pix.Opacity, pix.R, pix.G, pix.B));
+                }
+            return b;
+        }
+
+        //Bitmap GetScaledBitmap(WADImage image, double factor)
+        //{
+        //    int targetWidth = (int)(image.Width * factor + .5);
+        //    int targetHeight = (int)(image.Height * factor + .5);
+
+        //    // We need to project the target pixel onto the source pixels
+
+
+        //}
 
         private void label1x_Click(object sender, EventArgs e)
         {
