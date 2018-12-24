@@ -47,11 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapBuffer.cs" />
     <Compile Include="ExtractDirDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ExtractDirDialog.Designer.cs">
       <DependentUpon>ExtractDirDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImagePanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -64,6 +68,9 @@
     </Compile>
     <Compile Include="OpenDirectoryDialog.Designer.cs">
       <DependentUpon>OpenDirectoryDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PalettePanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

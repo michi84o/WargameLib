@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label6 = new System.Windows.Forms.Label();
-            this.panelPalette = new System.Windows.Forms.Panel();
             this.buttonExportPng = new System.Windows.Forms.Button();
             this.label4x = new System.Windows.Forms.Label();
             this.label2x = new System.Windows.Forms.Label();
@@ -39,7 +37,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxHeader = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.panelImage = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.listBoxWADContent = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,8 +46,13 @@
             this.chooseWADDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panelImageScroll = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panelLevel = new System.Windows.Forms.Panel();
+            this.tbSelectedVol = new System.Windows.Forms.TextBox();
+            this.labelZoomLevel14 = new System.Windows.Forms.Label();
+            this.labelZoomLevel12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.labelZoomLevel1 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.listBoxVolFiles = new System.Windows.Forms.ListBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,17 +64,19 @@
             this.lbTiles = new System.Windows.Forms.ListBox();
             this.label8 = new System.Windows.Forms.Label();
             this.panelLevelScroll = new System.Windows.Forms.Panel();
-            this.labelZoomLevel14 = new System.Windows.Forms.Label();
-            this.labelZoomLevel12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.labelZoomLevel1 = new System.Windows.Forms.Label();
-            this.UiUpdater = new System.Windows.Forms.Timer(this.components);
-            this.tbSelectedVol = new System.Windows.Forms.TextBox();
+            this.panelLevel = new System.Windows.Forms.Panel();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.busyBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.busyLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.imagePanel = new WargameLibTestWinforms.ImagePanel();
+            this.palettePanel = new WargameLibTestWinforms.PalettePanel();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panelImageScroll.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panelLevelScroll.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label6
@@ -84,15 +88,6 @@
             this.label6.Size = new System.Drawing.Size(43, 13);
             this.label6.TabIndex = 14;
             this.label6.Text = "Palette:";
-            // 
-            // panelPalette
-            // 
-            this.panelPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelPalette.BackColor = System.Drawing.Color.LightGray;
-            this.panelPalette.Location = new System.Drawing.Point(900, 32);
-            this.panelPalette.Name = "panelPalette";
-            this.panelPalette.Size = new System.Drawing.Size(89, 353);
-            this.panelPalette.TabIndex = 13;
             // 
             // buttonExportPng
             // 
@@ -161,12 +156,14 @@
             // 
             // textBoxHeader
             // 
+            this.textBoxHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxHeader.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxHeader.Location = new System.Drawing.Point(6, 368);
             this.textBoxHeader.Multiline = true;
             this.textBoxHeader.Name = "textBoxHeader";
             this.textBoxHeader.ReadOnly = true;
-            this.textBoxHeader.Size = new System.Drawing.Size(126, 170);
+            this.textBoxHeader.Size = new System.Drawing.Size(126, 159);
             this.textBoxHeader.TabIndex = 6;
             // 
             // label3
@@ -177,17 +174,6 @@
             this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "WAD Image:";
-            // 
-            // panelImage
-            // 
-            this.panelImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelImage.BackColor = System.Drawing.Color.LightGray;
-            this.panelImage.Location = new System.Drawing.Point(141, 32);
-            this.panelImage.Name = "panelImage";
-            this.panelImage.Size = new System.Drawing.Size(750, 506);
-            this.panelImage.TabIndex = 4;
             // 
             // label2
             // 
@@ -265,8 +251,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.palettePanel);
+            this.tabPage1.Controls.Add(this.panelImageScroll);
             this.tabPage1.Controls.Add(this.label6);
-            this.tabPage1.Controls.Add(this.panelPalette);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.buttonExportPng);
             this.tabPage1.Controls.Add(this.listBoxFiles);
@@ -279,7 +266,6 @@
             this.tabPage1.Controls.Add(this.label1x);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.panelImage);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -287,6 +273,19 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "WAD Viewer";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panelImageScroll
+            // 
+            this.panelImageScroll.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelImageScroll.AutoScroll = true;
+            this.panelImageScroll.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelImageScroll.Controls.Add(this.imagePanel);
+            this.panelImageScroll.Location = new System.Drawing.Point(138, 32);
+            this.panelImageScroll.Name = "panelImageScroll";
+            this.panelImageScroll.Size = new System.Drawing.Size(756, 495);
+            this.panelImageScroll.TabIndex = 15;
             // 
             // tabPage2
             // 
@@ -314,13 +313,59 @@
             this.tabPage2.Text = "Level Viewer";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // panelLevel
+            // tbSelectedVol
             // 
-            this.panelLevel.BackColor = System.Drawing.Color.LightGray;
-            this.panelLevel.Location = new System.Drawing.Point(3, 3);
-            this.panelLevel.Name = "panelLevel";
-            this.panelLevel.Size = new System.Drawing.Size(654, 528);
-            this.panelLevel.TabIndex = 12;
+            this.tbSelectedVol.Location = new System.Drawing.Point(167, 32);
+            this.tbSelectedVol.Multiline = true;
+            this.tbSelectedVol.Name = "tbSelectedVol";
+            this.tbSelectedVol.ReadOnly = true;
+            this.tbSelectedVol.Size = new System.Drawing.Size(155, 108);
+            this.tbSelectedVol.TabIndex = 18;
+            // 
+            // labelZoomLevel14
+            // 
+            this.labelZoomLevel14.BackColor = System.Drawing.Color.White;
+            this.labelZoomLevel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelZoomLevel14.Location = new System.Drawing.Point(297, 7);
+            this.labelZoomLevel14.Name = "labelZoomLevel14";
+            this.labelZoomLevel14.Size = new System.Drawing.Size(30, 16);
+            this.labelZoomLevel14.TabIndex = 17;
+            this.labelZoomLevel14.Text = "1/4";
+            this.labelZoomLevel14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelZoomLevel14.Click += new System.EventHandler(this.labelZoomLevel14_Click);
+            // 
+            // labelZoomLevel12
+            // 
+            this.labelZoomLevel12.BackColor = System.Drawing.Color.White;
+            this.labelZoomLevel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelZoomLevel12.Location = new System.Drawing.Point(261, 7);
+            this.labelZoomLevel12.Name = "labelZoomLevel12";
+            this.labelZoomLevel12.Size = new System.Drawing.Size(30, 16);
+            this.labelZoomLevel12.TabIndex = 16;
+            this.labelZoomLevel12.Text = "1/2x";
+            this.labelZoomLevel12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelZoomLevel12.Click += new System.EventHandler(this.labelZoomLevel12_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(182, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(37, 13);
+            this.label13.TabIndex = 15;
+            this.label13.Text = "Zoom:";
+            // 
+            // labelZoomLevel1
+            // 
+            this.labelZoomLevel1.BackColor = System.Drawing.Color.LightGreen;
+            this.labelZoomLevel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.labelZoomLevel1.Location = new System.Drawing.Point(225, 7);
+            this.labelZoomLevel1.Name = "labelZoomLevel1";
+            this.labelZoomLevel1.Size = new System.Drawing.Size(30, 16);
+            this.labelZoomLevel1.TabIndex = 14;
+            this.labelZoomLevel1.Text = "1";
+            this.labelZoomLevel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelZoomLevel1.Click += new System.EventHandler(this.labelZoomLevel1_Click);
             // 
             // label10
             // 
@@ -423,70 +468,59 @@
             this.panelLevelScroll.Size = new System.Drawing.Size(660, 534);
             this.panelLevelScroll.TabIndex = 13;
             // 
-            // labelZoomLevel14
+            // panelLevel
             // 
-            this.labelZoomLevel14.BackColor = System.Drawing.Color.White;
-            this.labelZoomLevel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelZoomLevel14.Location = new System.Drawing.Point(297, 7);
-            this.labelZoomLevel14.Name = "labelZoomLevel14";
-            this.labelZoomLevel14.Size = new System.Drawing.Size(30, 16);
-            this.labelZoomLevel14.TabIndex = 17;
-            this.labelZoomLevel14.Text = "1/4";
-            this.labelZoomLevel14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelZoomLevel14.Click += new System.EventHandler(this.labelZoomLevel14_Click);
+            this.panelLevel.BackColor = System.Drawing.Color.LightGray;
+            this.panelLevel.Location = new System.Drawing.Point(3, 3);
+            this.panelLevel.Name = "panelLevel";
+            this.panelLevel.Size = new System.Drawing.Size(654, 528);
+            this.panelLevel.TabIndex = 12;
             // 
-            // labelZoomLevel12
+            // statusStrip
             // 
-            this.labelZoomLevel12.BackColor = System.Drawing.Color.White;
-            this.labelZoomLevel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelZoomLevel12.Location = new System.Drawing.Point(261, 7);
-            this.labelZoomLevel12.Name = "labelZoomLevel12";
-            this.labelZoomLevel12.Size = new System.Drawing.Size(30, 16);
-            this.labelZoomLevel12.TabIndex = 16;
-            this.labelZoomLevel12.Text = "1/2x";
-            this.labelZoomLevel12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelZoomLevel12.Click += new System.EventHandler(this.labelZoomLevel12_Click);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.busyBar,
+            this.busyLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 579);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(1013, 22);
+            this.statusStrip.TabIndex = 17;
+            this.statusStrip.Text = "statusStrip1";
             // 
-            // label13
+            // busyBar
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(182, 9);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(37, 13);
-            this.label13.TabIndex = 15;
-            this.label13.Text = "Zoom:";
+            this.busyBar.Name = "busyBar";
+            this.busyBar.Size = new System.Drawing.Size(100, 16);
             // 
-            // labelZoomLevel1
+            // busyLabel
             // 
-            this.labelZoomLevel1.BackColor = System.Drawing.Color.LightGreen;
-            this.labelZoomLevel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.labelZoomLevel1.Location = new System.Drawing.Point(225, 7);
-            this.labelZoomLevel1.Name = "labelZoomLevel1";
-            this.labelZoomLevel1.Size = new System.Drawing.Size(30, 16);
-            this.labelZoomLevel1.TabIndex = 14;
-            this.labelZoomLevel1.Text = "1";
-            this.labelZoomLevel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelZoomLevel1.Click += new System.EventHandler(this.labelZoomLevel1_Click);
+            this.busyLabel.Name = "busyLabel";
+            this.busyLabel.Size = new System.Drawing.Size(28, 17);
+            this.busyLabel.Text = "XXX";
             // 
-            // UiUpdater
+            // imagePanel
             // 
-            this.UiUpdater.Enabled = true;
-            this.UiUpdater.Tick += new System.EventHandler(this.UiUpdater_Tick);
+            this.imagePanel.Image = null;
+            this.imagePanel.Location = new System.Drawing.Point(3, 3);
+            this.imagePanel.Name = "imagePanel";
+            this.imagePanel.Size = new System.Drawing.Size(748, 487);
+            this.imagePanel.TabIndex = 0;
+            this.imagePanel.Zoom = 1;
             // 
-            // tbSelectedVol
+            // palettePanel
             // 
-            this.tbSelectedVol.Location = new System.Drawing.Point(167, 32);
-            this.tbSelectedVol.Multiline = true;
-            this.tbSelectedVol.Name = "tbSelectedVol";
-            this.tbSelectedVol.ReadOnly = true;
-            this.tbSelectedVol.Size = new System.Drawing.Size(155, 108);
-            this.tbSelectedVol.TabIndex = 18;
+            this.palettePanel.Image = null;
+            this.palettePanel.Location = new System.Drawing.Point(900, 32);
+            this.palettePanel.Name = "palettePanel";
+            this.palettePanel.Size = new System.Drawing.Size(89, 353);
+            this.palettePanel.TabIndex = 16;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1013, 601);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -501,9 +535,12 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.panelImageScroll.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.panelLevelScroll.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -520,13 +557,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxHeader;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panelImage;
         private System.Windows.Forms.Label label1x;
         private System.Windows.Forms.Label label4x;
         private System.Windows.Forms.Label label2x;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonExportPng;
-        private System.Windows.Forms.Panel panelPalette;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -547,8 +582,13 @@
         private System.Windows.Forms.Label labelZoomLevel12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label labelZoomLevel1;
-        private System.Windows.Forms.Timer UiUpdater;
         private System.Windows.Forms.TextBox tbSelectedVol;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripProgressBar busyBar;
+        private System.Windows.Forms.ToolStripStatusLabel busyLabel;
+        private System.Windows.Forms.Panel panelImageScroll;
+        private ImagePanel imagePanel;
+        private PalettePanel palettePanel;
     }
 }
 
