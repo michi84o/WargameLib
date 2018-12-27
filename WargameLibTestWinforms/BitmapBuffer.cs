@@ -8,12 +8,20 @@ using System.Threading.Tasks;
 
 namespace WargameLibTestWinforms
 {
-    public static class BitmapBuffer
+    public class BitmapBuffer
     {
-        static Dictionary<string, Bitmap> _itemsDict = new Dictionary<string, Bitmap>();
-        static Queue<string> _items = new Queue<string>();
+        Dictionary<string, Bitmap> _itemsDict = new Dictionary<string, Bitmap>();
+        Queue<string> _items = new Queue<string>();
 
-        public static void Clear()
+        int _capacity;
+
+        public BitmapBuffer(int capacity)
+        {
+            if (capacity < 1) throw new ArgumentException("capacity must at least be 1");
+            _capacity = capacity;
+        }
+
+        public void Clear()
         {
             _items.Clear();
             foreach (var pair in _itemsDict)
@@ -23,15 +31,15 @@ namespace WargameLibTestWinforms
             _itemsDict.Clear();
         }
 
-        public static bool Contains(string name)
+        public bool Contains(string name)
         {
             return _itemsDict.ContainsKey(name);
         }
 
-        public static void Push(string name, Bitmap bitmap)
+        public void Push(string name, Bitmap bitmap)
         {
             if (_itemsDict.ContainsKey(name)) return;
-            while (_items.Count > 300)
+            while (_items.Count > _capacity)
             {
                 Debug.WriteLine("Bitmap Buffer full!");
                 var n = _items.Dequeue();
@@ -42,7 +50,7 @@ namespace WargameLibTestWinforms
             _itemsDict[name] = bitmap;
         }
 
-        public static Bitmap Get(string name)
+        public Bitmap Get(string name)
         {
             if (_itemsDict.TryGetValue(name, out var bitmap))
                 return bitmap;

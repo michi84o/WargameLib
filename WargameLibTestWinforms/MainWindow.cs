@@ -41,6 +41,8 @@ namespace WargameLibTestWinforms
             }
         }
 
+        List<FileNameItem> _wadFiles = new List<FileNameItem>();
+
         void UpdateWADDirectory(string directory)
         {
             // Search for WAD files
@@ -60,12 +62,13 @@ namespace WargameLibTestWinforms
                 // TODO: The used RLE format cannot be read ad the moment
                 // files.AddRange(Directory.EnumerateFiles(fonts, "*.RLE", SearchOption.AllDirectories));
             }
-            var items = new List<FileNameItem>();
+            _wadFiles.Clear();
             foreach (var file in files)
             {
-                items.Add(new FileNameItem() { FileName = file });
+                _wadFiles.Add(new FileNameItem() { FileName = file });
             }
-            listBoxFiles.DataSource = items;
+            listBoxFiles.DataSource = null;
+            listBoxFiles.DataSource = _wadFiles;
 
             // Not required
             //CreateWadIndex(files.ToList()); // Creates background Task that uses the list
@@ -78,7 +81,7 @@ namespace WargameLibTestWinforms
                 files.AddRange(Directory.EnumerateFiles(misiones, "*.VOL", SearchOption.AllDirectories));
             }
 
-            items = new List<FileNameItem>();
+            var items = new List<FileNameItem>();
             foreach (var file in files)
             {
                 items.Add(new FileNameItem() { FileName = file });
@@ -140,13 +143,11 @@ namespace WargameLibTestWinforms
 
         private void listBoxFiles_SelectedValueChanged(object sender, EventArgs e)
         {
+            imagePanel.BitmapBuffer.Clear();
             listBoxWADContent.DataSource = null;
             var value = listBoxFiles.SelectedValue as FileNameItem;
             if (value == null)
-            {
-                PanelImageGraphicsDirty = true;
                 return;
-            }
 
             // TODO: RLE files use a special form of the Windows Bitmap format. Need a different decoder.
             //if (value.FileName.EndsWith(".RLE",StringComparison.OrdinalIgnoreCase))
@@ -176,8 +177,6 @@ namespace WargameLibTestWinforms
             palettePanel.Image = img;
 
             buttonExportPng.Enabled = (img != null);
-
-            PanelImageGraphicsDirty = true;
 
             if (img != null)
             {
@@ -237,184 +236,6 @@ namespace WargameLibTestWinforms
             }
         }
 
-        bool _panelImageGraphicsDirty = true;
-        bool PanelImageGraphicsDirty { get => _panelImageGraphicsDirty; set { _panelImageGraphicsDirty = value; Invalidate(); } }
-        BufferedGraphics panelImageGraphics;
-        BufferedGraphics panelPaletteGraphics;
-
-        Graphics panelLevelGraphics;
-
-        //protected override void OnPaint(PaintEventArgs e)
-        //{
-        //    _lastUiUpdate = DateTime.UtcNow;
-        //    base.OnPaint(e);
-
-        //    // TODO: Doing this in OnPaint is inefficient
-        //    // Need to implement this directly in a derived panel class
-        //    if (tabControl1.SelectedIndex == 0)
-        //    {
-        //        //if (!PanelImageGraphicsDirty && panelImageGraphics != null && panelPaletteGraphics != null)
-        //        //{
-        //        //    panelImageGraphics.Render(panelImage.CreateGraphics());
-        //        //    panelPaletteGraphics.Render(panelPalette.CreateGraphics());
-        //        //}
-        //        //else
-        //        //{
-        //        //    PanelImageGraphicsDirty = false;
-        //        //    Debug.WriteLine("Image dirty, repaint");
-
-        //        //    var img = listBoxWADContent.SelectedValue as WADImage;
-
-        //        //    if (img != null)
-        //        //    {
-        //        //        panelImage.Width = (int)(img.Width * _zoom);
-        //        //        panelImage.Height = (int)(img.Height * _zoom);
-        //        //    }
-        //        //    else { panelImage.Width = 1; panelImage.Height = 1; }
-
-        //        //    // Double Buffering
-        //        //    if (panelImageGraphics != null) panelPaletteGraphics.Dispose();
-        //        //    if (panelPaletteGraphics != null) panelPaletteGraphics.Dispose();
-        //        //    BufferedGraphicsContext currentContext = BufferedGraphicsManager.Current;
-        //        //    panelImageGraphics = currentContext.Allocate(panelImage.CreateGraphics(), panelImage.DisplayRectangle);
-        //        //    panelPaletteGraphics = currentContext.Allocate(panelPalette.CreateGraphics(), panelPalette.DisplayRectangle);
-
-        //        //    var g = panelImageGraphics.Graphics;
-
-        //        //    g.Clear(Color.LightGray);
-        //        //    //g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-        //        //    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-
-        //        //    if (img != null)
-        //        //    {
-        //        //        var b = BitmapBuffer.Get(img.Name);
-        //        //        if (b == null)
-        //        //        {
-        //        //            b = GetBitmap(img);
-        //        //            BitmapBuffer.Push(img.Name, b);
-        //        //        }
-        //        //        g.DrawImage(b, new Rectangle(0, 0, (int)img.Width * _zoom, (int)img.Height * _zoom), new Rectangle(0, 0, (int)img.Width, (int)img.Height), GraphicsUnit.Pixel);
-        //        //    }
-
-        //        //    //buf.Render();
-        //        //    panelImageGraphics.Render(panelImage.CreateGraphics());
-
-        //        //    // Color palette
-
-        //        //    g = panelPaletteGraphics.Graphics;
-        //        //    g.Clear(Color.LightGray);
-        //        //    int y = 32 * 10 + 32 + 1 - 1;
-        //        //    int x = 8 * 10 + 8 + 1 - 1;
-        //        //    g.DrawRectangle(Pens.Black, 0, 0, x, y);
-        //        //    for (int i = 1; i < 8; ++i)
-        //        //    {
-        //        //        g.DrawLine(Pens.Black, i * 10 + i, 0, i * 10 + i, y);
-        //        //    }
-        //        //    for (int i = 1; i < 32; ++i)
-        //        //    {
-        //        //        g.DrawLine(Pens.Black, 0, i * 10 + i, x, i * 10 + i);
-        //        //    }
-        //        //    if (img != null)
-        //        //    {
-        //        //        var paletteColors = img.GetPaletteColors();
-        //        //        int p = 0;
-        //        //        if (paletteColors != null)
-        //        //        {
-        //        //            for (int i = 0; i < 32; ++i)
-        //        //                for (int j = 0; j < 8; ++j)
-        //        //                {
-        //        //                    using (var b = new SolidBrush(Color.FromArgb(
-        //        //                        255,
-        //        //                        paletteColors[p].R,
-        //        //                        paletteColors[p].G,
-        //        //                        paletteColors[p].B)))
-        //        //                    {
-        //        //                        g.FillRectangle(b, j * 10 + 1 + j, i * 10 + 1 + i, 10, 10);
-        //        //                    }
-        //        //                    ++p;
-        //        //                }
-        //        //        }
-        //        //    }
-        //        //    //buf.Render();
-        //        //    panelPaletteGraphics.Render(panelPalette.CreateGraphics());
-        //        //}
-        //    }
-        //    else if (tabControl1.SelectedIndex == 1)
-        //    {
-        //        //var vol = _vol;
-        //        //var div = levelZoomDivider;
-
-        //        //int centerOffsetX = 0;
-        //        //int centerOffsetY = 0;
-
-        //        //if (vol != null)
-        //        //{
-        //        //    panelLevel.Width = (vol.XMax - vol.XMin)/div;
-        //        //    panelLevel.Height = (vol.YMax - vol.YMin)/div;
-        //        //    if (vol.XMin < 0) centerOffsetX = -1 * vol.XMin; // div is applied later
-        //        //    if (vol.YMin < 0) centerOffsetY = -1 * vol.YMin;
-        //        //}
-
-        //        //// Double Buffering
-        //        //BufferedGraphicsContext currentContext = BufferedGraphicsManager.Current;
-        //        //BufferedGraphics buf = currentContext.Allocate(panelLevel.CreateGraphics(), panelLevel.DisplayRectangle);
-        //        //var g = buf.Graphics;
-
-        //        //g.Clear(Color.LightGray);
-        //        ////g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-        //        //g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-
-        //        //// Read the VOL structure and place sprites
-
-        //        //if (vol != null)
-        //        //{
-        //        //    foreach (var poly in vol.Polys)
-        //        //    {
-        //        //        var x0 = poly.Center.X + centerOffsetX;
-        //        //        var y0 = poly.Center.Y + centerOffsetY;
-
-        //        //        // TODO: Result looks very random
-        //        //        // Bad performance
-        //        //        foreach (var tile in poly.Tiles)
-        //        //        {
-        //        //            if (tile.SpriteName.StartsWith("-")) continue; // Tile set to invisible
-        //        //            //var b = GetBitmap(tile.SpriteName);
-        //        //            var b = BitmapBuffer.Get(tile.SpriteName);
-        //        //            if (b != null)
-        //        //            {
-        //        //                g.DrawImage(b,
-        //        //                    new Rectangle((x0 + tile.Position.X) / div, (y0 + tile.Position.Y) / div, (int)b.Width / div, (int)b.Height / div),
-        //        //                    new Rectangle(0, 0, (int)b.Width, (int)b.Height), GraphicsUnit.Pixel);
-        //        //            }
-        //        //            else
-        //        //            {
-        //        //                g.DrawRectangle(Pens.Violet, new Rectangle((x0 + tile.Position.X) / div, (y0 + tile.Position.Y) / div, (int)tile.Width / div, (int)tile.Height / div));
-        //        //            }
-        //        //        }
-
-        //        //        if (poly.Vertices.Count > 1)
-        //        //        {
-        //        //            WargameLib.Point prev;
-        //        //            WargameLib.Point cur;
-        //        //            for (int i = 1; i < poly.Vertices.Count; ++i)
-        //        //            {
-        //        //                prev = poly.Vertices[i-1];
-        //        //                cur = poly.Vertices[i];
-        //        //                g.DrawLine(Pens.Blue, (x0 + prev.X) / div, (y0 + prev.Y) / div, (x0 + cur.X) / div, (y0 + cur.Y) / div);
-        //        //            }
-        //        //            prev = poly.Vertices[poly.Vertices.Count - 1];
-        //        //            cur = poly.Vertices[0];
-        //        //            g.DrawLine(Pens.Blue, (x0 + prev.X) / div, (y0 + prev.Y) / div, (x0 + cur.X) / div, (y0 + cur.Y) / div);
-        //        //        }
-        //        //    }
-        //        //}
-
-        //        //buf.Render(panelLevel.CreateGraphics());
-        //        //buf.Dispose();
-        //    }
-        //    _lastUiUpdate = DateTime.UtcNow;
-        //}
-
         //Bitmap GetBitmap(string filename)
         //{
         //    var bitmap = BitmapBuffer.Get(filename);
@@ -458,7 +279,6 @@ namespace WargameLibTestWinforms
             label1x.BackColor = Color.LightGreen;
             label2x.BackColor = Color.White;
             label4x.BackColor = Color.White;
-            PanelImageGraphicsDirty = true;
         }
 
         private void label2x_Click(object sender, EventArgs e)
@@ -467,7 +287,6 @@ namespace WargameLibTestWinforms
             label1x.BackColor = Color.White;
             label2x.BackColor = Color.LightGreen;
             label4x.BackColor = Color.White;
-            PanelImageGraphicsDirty = true;
         }
 
         private void label4x_Click(object sender, EventArgs e)
@@ -476,7 +295,6 @@ namespace WargameLibTestWinforms
             label1x.BackColor = Color.White;
             label2x.BackColor = Color.White;
             label4x.BackColor = Color.LightGreen;
-            PanelImageGraphicsDirty = true;
         }
 
         private void buttonExportPng_Click(object sender, EventArgs e)
@@ -601,7 +419,6 @@ namespace WargameLibTestWinforms
 
         private void listBoxVolFiles_SelectedValueChanged(object sender, EventArgs e)
         {
-
             var item = listBoxVolFiles.SelectedValue as FileNameItem;
 
             _vol = null;
@@ -618,17 +435,17 @@ namespace WargameLibTestWinforms
             try
             {
                 _vol = new VOL(item.FileName);
-                levelPanel.Vol = _vol;
                 lbPolygons.DataSource = _vol.Polys;
                 tbSelectedVol.Text =
                     "Width: " + _vol.Width + "\r\nHeight: " + _vol.Height +
                     "\r\nLimits: {"+_vol.XMin+";"+_vol.YMin+ "}-{" + _vol.XMax + ";" + _vol.YMax + "}";
 
                 // Load all textures for that level:
-                HashSet<string> wadFiles = new HashSet<string>();
-                HashSet<string> imageFiles = new HashSet<string>();
-                busyLabel.Text = "Loading Level";
+                //HashSet<string> wadFiles = new HashSet<string>();
+                //HashSet<string> imageFiles = new HashSet<string>();
+                //busyLabel.Text = "Loading Level";
                 Application.DoEvents();
+
                 foreach (var poly in _vol.Polys)
                 {
                     foreach (var tile in poly.Tiles)
@@ -641,24 +458,67 @@ namespace WargameLibTestWinforms
                         //}
                     }
                 }
-                int progress = 0;
-                foreach (var file in wadFiles)
+
+                // Load bitmaps for level
+                levelPanel.BitmapBuffer.Clear();
+                try
                 {
-                    busyBar.Value = (int)(++progress * 100.0 / wadFiles.Count + .5);
-                    Application.DoEvents();
-                    var wadImages = WAD.Extract(file);
-                    foreach (var image in wadImages)
+                    // Get WAD file with same index:
+                    var file = Path.GetFileName(_vol.File);
+                    if (file.Length > 4)
                     {
-                        if (imageFiles.Contains(image.Name))
+                        file = file.Substring(0, file.Length - 4);
+                        int numindex = file.Length - 1;
+                        if (Char.IsDigit(file[file.Length - 1]))
                         {
-                            if (!BitmapBuffer.Contains(image.Name))
+                            for (int i = file.Length - 1; i >= 0; --i)
                             {
-                                var b = GetBitmap(image);
-                                BitmapBuffer.Push(image.Name, b);
+                                if (!Char.IsDigit(file[i]))
+                                {
+                                    numindex = i + 1;
+                                    break;
+                                }
+                            }
+                            file = file.Substring(numindex, file.Length - numindex);
+                            var wadfile = _wadFiles.FirstOrDefault(o => o.FileName.EndsWith(file + ".wad", StringComparison.InvariantCultureIgnoreCase));
+                            if (wadfile != null)
+                            {
+                                var wads = WAD.Extract(wadfile.FileName);
+                                foreach (var wad in wads)
+                                {
+                                    var bitmap = GetBitmap(wad);
+                                    if (bitmap != null)
+                                        levelPanel.BitmapBuffer.Push(wad.Name, bitmap);
+                                }
                             }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("WAD extraction for level failed: " + ex.Message);
+                }
+
+                levelPanel.Vol = _vol;
+
+                //int progress = 0;
+                //foreach (var file in wadFiles)
+                //{
+                //    busyBar.Value = (int)(++progress * 100.0 / wadFiles.Count + .5);
+                //    Application.DoEvents();
+                //    var wadImages = WAD.Extract(file);
+                //    foreach (var image in wadImages)
+                //    {
+                //        if (imageFiles.Contains(image.Name))
+                //        {
+                //            if (!BitmapBuffer.Contains(image.Name))
+                //            {
+                //                var b = GetBitmap(image);
+                //                BitmapBuffer.Push(image.Name, b);
+                //            }
+                //        }
+                //    }
+                //}
 
 
             }
@@ -730,11 +590,6 @@ namespace WargameLibTestWinforms
                         Invalidate();
                 }
             }
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BitmapBuffer.Clear();
         }
     }
 }

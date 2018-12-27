@@ -10,6 +10,8 @@ namespace WargameLibTestWinforms
 {
     public class ImagePanel : Panel
     {
+        public BitmapBuffer BitmapBuffer { get; } = new BitmapBuffer(5);
+
         WargameLib.WADImage _image;
         public WargameLib.WADImage Image
         {

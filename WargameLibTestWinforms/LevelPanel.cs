@@ -11,6 +11,8 @@ namespace WargameLibTestWinforms
 {
     public class LevelPanel : Panel
     {
+        public BitmapBuffer BitmapBuffer { get; } = new BitmapBuffer(1000);
+
         VOL _vol;
         public VOL Vol
         {

@@ -23,6 +23,8 @@ namespace WargameLib
     /// </summary>
     public class VOL
     {
+        public string File { get; }
+
         /// <summary>Determined by content.</summary>
         public int XMin { get; private set; }
         /// <summary>Determined by content.</summary>
@@ -46,11 +48,12 @@ namespace WargameLib
             if (!System.IO.File.Exists(file))
                 throw new FileNotFoundException("File '" + file + "' not found");
 
+            File = file;
+
             using (var reader = new StreamReader(file))
             {
                 Init(reader);
             }
-
         }
 
         /// <summary>
