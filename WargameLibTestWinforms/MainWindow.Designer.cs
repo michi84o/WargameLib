@@ -46,7 +46,9 @@
             this.chooseWADDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.palettePanel = new WargameLibTestWinforms.PalettePanel();
             this.panelImageScroll = new System.Windows.Forms.Panel();
+            this.imagePanel = new WargameLibTestWinforms.ImagePanel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tbSelectedVol = new System.Windows.Forms.TextBox();
             this.labelZoomLevel14 = new System.Windows.Forms.Label();
@@ -64,12 +66,10 @@
             this.lbTiles = new System.Windows.Forms.ListBox();
             this.label8 = new System.Windows.Forms.Label();
             this.panelLevelScroll = new System.Windows.Forms.Panel();
-            this.panelLevel = new System.Windows.Forms.Panel();
+            this.levelPanel = new WargameLibTestWinforms.LevelPanel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.busyBar = new System.Windows.Forms.ToolStripProgressBar();
             this.busyLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.imagePanel = new WargameLibTestWinforms.ImagePanel();
-            this.palettePanel = new WargameLibTestWinforms.PalettePanel();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -248,6 +248,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1009, 573);
             this.tabControl1.TabIndex = 15;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -274,6 +275,14 @@
             this.tabPage1.Text = "WAD Viewer";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // palettePanel
+            // 
+            this.palettePanel.Image = null;
+            this.palettePanel.Location = new System.Drawing.Point(900, 32);
+            this.palettePanel.Name = "palettePanel";
+            this.palettePanel.Size = new System.Drawing.Size(89, 353);
+            this.palettePanel.TabIndex = 16;
+            // 
             // panelImageScroll
             // 
             this.panelImageScroll.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -286,6 +295,15 @@
             this.panelImageScroll.Name = "panelImageScroll";
             this.panelImageScroll.Size = new System.Drawing.Size(756, 495);
             this.panelImageScroll.TabIndex = 15;
+            // 
+            // imagePanel
+            // 
+            this.imagePanel.Image = null;
+            this.imagePanel.Location = new System.Drawing.Point(3, 3);
+            this.imagePanel.Name = "imagePanel";
+            this.imagePanel.Size = new System.Drawing.Size(748, 487);
+            this.imagePanel.TabIndex = 0;
+            this.imagePanel.Zoom = 1;
             // 
             // tabPage2
             // 
@@ -462,19 +480,20 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelLevelScroll.AutoScroll = true;
-            this.panelLevelScroll.Controls.Add(this.panelLevel);
+            this.panelLevelScroll.Controls.Add(this.levelPanel);
             this.panelLevelScroll.Location = new System.Drawing.Point(335, 6);
             this.panelLevelScroll.Name = "panelLevelScroll";
-            this.panelLevelScroll.Size = new System.Drawing.Size(660, 534);
+            this.panelLevelScroll.Size = new System.Drawing.Size(660, 521);
             this.panelLevelScroll.TabIndex = 13;
             // 
-            // panelLevel
+            // levelPanel
             // 
-            this.panelLevel.BackColor = System.Drawing.Color.LightGray;
-            this.panelLevel.Location = new System.Drawing.Point(3, 3);
-            this.panelLevel.Name = "panelLevel";
-            this.panelLevel.Size = new System.Drawing.Size(654, 528);
-            this.panelLevel.TabIndex = 12;
+            this.levelPanel.Location = new System.Drawing.Point(3, 3);
+            this.levelPanel.Name = "levelPanel";
+            this.levelPanel.Size = new System.Drawing.Size(654, 515);
+            this.levelPanel.TabIndex = 0;
+            this.levelPanel.Vol = null;
+            this.levelPanel.Zoom = 1;
             // 
             // statusStrip
             // 
@@ -497,23 +516,6 @@
             this.busyLabel.Name = "busyLabel";
             this.busyLabel.Size = new System.Drawing.Size(28, 17);
             this.busyLabel.Text = "XXX";
-            // 
-            // imagePanel
-            // 
-            this.imagePanel.Image = null;
-            this.imagePanel.Location = new System.Drawing.Point(3, 3);
-            this.imagePanel.Name = "imagePanel";
-            this.imagePanel.Size = new System.Drawing.Size(748, 487);
-            this.imagePanel.TabIndex = 0;
-            this.imagePanel.Zoom = 1;
-            // 
-            // palettePanel
-            // 
-            this.palettePanel.Image = null;
-            this.palettePanel.Location = new System.Drawing.Point(900, 32);
-            this.palettePanel.Name = "palettePanel";
-            this.palettePanel.Size = new System.Drawing.Size(89, 353);
-            this.palettePanel.TabIndex = 16;
             // 
             // MainWindow
             // 
@@ -576,7 +578,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListBox listBoxVolFiles;
-        private System.Windows.Forms.Panel panelLevel;
         private System.Windows.Forms.Panel panelLevelScroll;
         private System.Windows.Forms.Label labelZoomLevel14;
         private System.Windows.Forms.Label labelZoomLevel12;
@@ -589,6 +590,7 @@
         private System.Windows.Forms.Panel panelImageScroll;
         private ImagePanel imagePanel;
         private PalettePanel palettePanel;
+        private LevelPanel levelPanel;
     }
 }
 

@@ -57,6 +57,9 @@
     <Compile Include="ImagePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="LevelPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

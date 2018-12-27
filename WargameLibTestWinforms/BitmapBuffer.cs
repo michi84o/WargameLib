@@ -31,13 +31,13 @@ namespace WargameLibTestWinforms
         public static void Push(string name, Bitmap bitmap)
         {
             if (_itemsDict.ContainsKey(name)) return;
-            //while (_items.Count > 300)
-            //{
-            //    Debug.WriteLine("Bitmap Buffer full!");
-            //    var n = _items.Dequeue();
-            //    _itemsDict[n].Dispose();
-            //    _itemsDict.Remove(n);
-            //}
+            while (_items.Count > 300)
+            {
+                Debug.WriteLine("Bitmap Buffer full!");
+                var n = _items.Dequeue();
+                _itemsDict[n].Dispose();
+                _itemsDict.Remove(n);
+            }
             _items.Enqueue(name);
             _itemsDict[name] = bitmap;
         }
