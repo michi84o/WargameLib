@@ -104,28 +104,39 @@ namespace WargameLibTestWinforms
             {
                 foreach (var poly in vol.Polys)
                 {
-                    var x0 = poly.Center.X + centerOffsetX;
-                    var y0 = poly.Center.Y + centerOffsetY;
-
-                    // TODO: Result looks very random
-                    // Bad performance
+                    // TODO: Bad performance
                     foreach (var tile in poly.Tiles)
                     {
                         if (tile.SpriteName.StartsWith("-")) continue; // Tile set to invisible
-                                                                       //var b = GetBitmap(tile.SpriteName);
-                        var b = BitmapBuffer.Get(tile.SpriteName);
-                        if (b != null)
+
+
+                        //var b = GetBitmap(tile.SpriteName);
+                        var bb = BitmapBuffer.Get(tile.SpriteName);
+                        if (bb != null)
                         {
+                            Bitmap b = bb;
+                            if (tile.Transformation != MapTileTransformation.None)
+                            {
+                                b = new Bitmap(bb);
+                                if ((tile.Transformation & MapTileTransformation.FlipY) != 0)
+                                    b.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                                if ((tile.Transformation & MapTileTransformation.MirrorX) != 0)
+                                    b.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                                // TODO: Ligh or explosion
+                            }
+
                             g.DrawImage(b,
-                                new Rectangle((/*x0 +*/ tile.Position.X) / div, (/*y0 +*/ tile.Position.Y) / div, (int)b.Width / div, (int)b.Height / div),
+                                new Rectangle((tile.Position.X) / div, (tile.Position.Y) / div, (int)b.Width / div, (int)b.Height / div),
                                 new Rectangle(0, 0, (int)b.Width, (int)b.Height), GraphicsUnit.Pixel);
                         }
                         else
                         {
-                            g.DrawRectangle(Pens.Violet, new Rectangle((x0 + tile.Position.X) / div, (y0 + tile.Position.Y) / div, (int)tile.Width / div, (int)tile.Height / div));
+                            g.DrawRectangle(Pens.Violet, new Rectangle((tile.Position.X) / div, ( tile.Position.Y) / div, (int)tile.Width / div, (int)tile.Height / div));
                         }
                     }
 
+                    var x0 = poly.Center.X + centerOffsetX;
+                    var y0 = poly.Center.Y + centerOffsetY;
                     if (poly.Vertices.Count > 1)
                     {
                         WargameLib.Point prev;

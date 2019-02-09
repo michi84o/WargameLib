@@ -243,11 +243,11 @@ namespace WargameLib
 
                     // TODO: Are there other combinations?
                     if (transStr[0] == 'X')
-                        tile.Transformation &= MapTileTransformation.MirrorX;
+                        tile.Transformation |= MapTileTransformation.MirrorX;
                     if (transStr[1] == 'Y')
-                        tile.Transformation &= MapTileTransformation.FlipY;
+                        tile.Transformation |= MapTileTransformation.FlipY;
                     if (transStr[2] == 'L')
-                        tile.Transformation &= MapTileTransformation.LightOrExplosion;
+                        tile.Transformation |= MapTileTransformation.LightOrExplosion;
 
                     poly.Tiles.Add(tile);
 
