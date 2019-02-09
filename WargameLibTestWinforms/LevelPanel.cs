@@ -65,7 +65,7 @@ namespace WargameLibTestWinforms
 
             if (!_dirty && _buffer != null)
             {
-                //_buffer.Render(CreateGraphics()); Not required
+                _buffer.Render(CreateGraphics());
                 return;
             }
 
@@ -94,7 +94,7 @@ namespace WargameLibTestWinforms
             }
 
             var g = _buffer.Graphics;
-            g.Clear(Color.LightGray);
+            g.Clear(Color.DarkMagenta);
             //g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
 
@@ -109,7 +109,6 @@ namespace WargameLibTestWinforms
                     {
                         if (tile.SpriteName.StartsWith("-")) continue; // Tile set to invisible
 
-
                         //var b = GetBitmap(tile.SpriteName);
                         var bb = BitmapBuffer.Get(tile.SpriteName);
                         if (bb != null)
@@ -122,7 +121,7 @@ namespace WargameLibTestWinforms
                                     b.RotateFlip(RotateFlipType.RotateNoneFlipY);
                                 if ((tile.Transformation & MapTileTransformation.MirrorX) != 0)
                                     b.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                                // TODO: Ligh or explosion
+                                // TODO: Light or explosion
                             }
 
                             g.DrawImage(b,
@@ -155,6 +154,7 @@ namespace WargameLibTestWinforms
             }
 
             _buffer.Render(CreateGraphics());
+            _dirty = false;
         }
     }
 }
