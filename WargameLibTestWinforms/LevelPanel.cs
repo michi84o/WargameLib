@@ -117,7 +117,7 @@ namespace WargameLibTestWinforms
                         if (b != null)
                         {
                             g.DrawImage(b,
-                                new Rectangle((x0 + tile.Position.X) / div, (y0 + tile.Position.Y) / div, (int)b.Width / div, (int)b.Height / div),
+                                new Rectangle((/*x0 +*/ tile.Position.X) / div, (/*y0 +*/ tile.Position.Y) / div, (int)b.Width / div, (int)b.Height / div),
                                 new Rectangle(0, 0, (int)b.Width, (int)b.Height), GraphicsUnit.Pixel);
                         }
                         else
