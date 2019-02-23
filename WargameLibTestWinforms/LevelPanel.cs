@@ -118,26 +118,110 @@ namespace WargameLibTestWinforms
                         var bb = BitmapBuffer.Get(tile.SpriteName);
                         if (bb != null)
                         {
-                            Bitmap b = bb;
+                            Bitmap b;
+                            bool needDispose = false;
+                            if (bb.Width != tile.Width || bb.Height != tile.Height || tile.Offset.X != 0 || tile.Offset.Y != 0)
+                            {
+                                // Make copy. Apply offset
+                                b = new Bitmap(tile.Width, tile.Height);
+                                needDispose = true;
+
+                                // Offset correction
+                                int ho = tile.Offset.X;
+                                int vo = tile.Offset.Y;
+                                // TODO: Could mean tile.Width/Height instead of bb
+                                while (ho < 0) ho += bb.Width;
+                                while (ho >= bb.Width) ho -= bb.Width;
+                                while (vo < 0) vo += bb.Height;
+                                while (vo >= bb.Height) vo -= bb.Height;
+
+                                using (Graphics grD = Graphics.FromImage(b))
+                                {
+                                    // Horizontal offset means: Shift Image left (=start copy at offset)
+                                    // Also if target region is larger, use source bitmap as tile
+
+                                    var sourceRect = new Rectangle(ho, vo, bb.Width - ho, bb.Height - vo);
+                                    var destRect = new Rectangle(0, 0, sourceRect.Width, sourceRect.Height);
+                                    grD.DrawImage(bb,
+                                        destRect,
+                                        sourceRect,
+                                        GraphicsUnit.Pixel);
+
+                                    // Repeat start tile vertically:
+                                    if (tile.Height > (bb.Height - vo))
+                                    {
+                                        int yRepeatCnt = tile.Height / bb.Height;
+                                        if (yRepeatCnt > 0)
+                                        {
+                                            // Ignore vertical offset, just take horizontal offset
+                                            sourceRect = new Rectangle(ho, 0, bb.Width - ho, bb.Height);
+                                            for (int i = 0; i < yRepeatCnt; ++i)
+                                            {
+                                                destRect = new Rectangle(0, vo + i * bb.Height, sourceRect.Width, sourceRect.Height);
+                                                grD.DrawImage(bb, destRect, sourceRect, GraphicsUnit.Pixel);
+                                            }
+                                        }
+                                    }
+                                    // Repeat tile horizontally and vertically
+                                    if (tile.Width > (bb.Width - ho))
+                                    {
+                                        int xRepeatCnt = tile.Width / bb.Width;
+                                        if (xRepeatCnt > 0)
+                                        {
+                                            // Repeat the whole image without offset
+                                            sourceRect = new Rectangle(0, 0, bb.Width, bb.Height);
+                                            for (int x = bb.Width - ho; x < tile.Width; x += bb.Width)
+                                            {
+                                                for (int y = 0; y < tile.Height; y += bb.Height)
+                                                {
+                                                    destRect = new Rectangle(x, y, sourceRect.Width, sourceRect.Height);
+                                                    grD.DrawImage(bb, destRect, sourceRect, GraphicsUnit.Pixel);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                            else b = bb;
+
                             if (tile.Transformation != MapTileTransformation.None)
                             {
-                                b = new Bitmap(bb);
+                                if (!needDispose)
+                                {
+                                    b = new Bitmap(b); // b == bb at this point. Don't touch original
+                                    needDispose = true;
+                                }
+
                                 if ((tile.Transformation & MapTileTransformation.FlipY) != 0)
                                     b.RotateFlip(RotateFlipType.RotateNoneFlipY);
                                 if ((tile.Transformation & MapTileTransformation.MirrorX) != 0)
                                     b.RotateFlip(RotateFlipType.RotateNoneFlipX);
                                 // TODO: Light or explosion
                             }
-
                             g.DrawImage(b,
                                 new Rectangle((tile.Position.X) / div, (tile.Position.Y) / div, (int)b.Width / div, (int)b.Height / div),
                                 new Rectangle(0, 0, (int)b.Width, (int)b.Height), GraphicsUnit.Pixel);
+
+
+                            if (needDispose)
+                            {
+                                b.Dispose();
+                                // Debug Only:
+                                //g.DrawRectangle(Pens.Yellow,
+                                //    new Rectangle((tile.Position.X) / div, (tile.Position.Y) / div, (int)tile.Width / div, (int)tile.Height / div));
+                            }
+
                         }
                         else
                         {
                             g.DrawRectangle(Pens.Violet, new Rectangle((tile.Position.X) / div, ( tile.Position.Y) / div, (int)tile.Width / div, (int)tile.Height / div));
                         }
                     }
+
+                    // For some reason we have to divide y by 1.6 to stretch polygons correctly. Maybe that is due to perspective
+                    var f1 = 100;
+                    var f2 = 155;
 
                     var x0 = poly.Center.X + centerOffsetX;
                     var y0 = poly.Center.Y + centerOffsetY;
@@ -149,11 +233,11 @@ namespace WargameLibTestWinforms
                         {
                             prev = poly.Vertices[i - 1];
                             cur = poly.Vertices[i];
-                            g.DrawLine(Pens.Blue, (x0 + prev.X) / div, (y0 + prev.Y) / div, (x0 + cur.X) / div, (y0 + cur.Y) / div);
+                            g.DrawLine(Pens.Blue, /*f1**/ (x0 + prev.X) / (div/**f2*/), f1 * (y0 + prev.Y) / (div * f2), /*f1 **/ (x0 + cur.X) / (div/* * f2*/), f1 * (y0 + cur.Y) / (div * f2));
                         }
                         prev = poly.Vertices[poly.Vertices.Count - 1];
                         cur = poly.Vertices[0];
-                        g.DrawLine(Pens.Blue, (x0 + prev.X) / div, (y0 + prev.Y) / div, (x0 + cur.X) / div, (y0 + cur.Y) / div);
+                        g.DrawLine(Pens.Blue, /*f1 **/ (x0 + prev.X) / (div/* * f2*/), f1 * (y0 + prev.Y) / (div * f2), /*f1 **/ (x0 + cur.X) / (div/* * f2*/), f1 * (y0 + cur.Y) / (div * f2));
                     }
                 }
             }

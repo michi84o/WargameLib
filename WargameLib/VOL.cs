@@ -276,22 +276,25 @@ namespace WargameLib
             XMax = Width;
             YMin = 0;
             YMax = Height;
-            foreach (var p in Polys)
-            {
-                var x0 = p.Center.X;
-                var y0 = p.Center.Y;
-                AdjustLimits(x0, y0);
-                foreach (var t in p.Tiles)
-                {
-                    // TODO: Not sure if correct:
-                    //AdjustLimits(x0 + t.Position.X, y0 + t.Position.Y);
-                    //AdjustLimits(x0 + t.Position.X + t.Width, y0 + t.Position.Y + t.Height);
-                }
-                foreach (var v in p.Vertices)
-                {
-                    AdjustLimits(x0 + v.X, y0 + v.Y);
-                }
-            }
+            //foreach (var p in Polys)
+            //{
+            //    var x0 = p.Center.X;
+            //    var y0 = p.Center.Y;
+            //    AdjustLimits(x0, y0);
+            //    foreach (var t in p.Tiles)
+            //    {
+            //        // TODO: Not sure if correct:
+            //        //AdjustLimits(x0 + t.Position.X, y0 + t.Position.Y);
+            //        //AdjustLimits(x0 + t.Position.X + t.Width, y0 + t.Position.Y + t.Height);
+            //    }
+            //    // For some reason, vertices y must be divided by 1.6
+            //    int f1 = 10;
+            //    int f2 = 16;
+            //    foreach (var v in p.Vertices)
+            //    {
+            //        AdjustLimits(x0 + v.X, f1*(y0 + v.Y)/f2);
+            //    }
+            //}
 
 
             // There should be a final '}' to close the definition

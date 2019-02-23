@@ -26,4 +26,4 @@ Status: Working on Level File Parser.
 
 ![Screenshot of Testprogram](Images/screenshot1.png)
 
-![Screenshot of Testprogram](Images/screenshot2.png)
+![Screenshot of Testprogram](Images/screenshot3.png)
