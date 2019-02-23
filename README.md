@@ -18,9 +18,11 @@ be allowed to have dreams ;-)
 Currently working:
 - Extract DIR files
 - Display contents of WAD files and export as PNG
-
-Next step:
 - View Levels
+
+Next steps:
+- Complete Level Viewer
+- Section Viewer
 
 Status: Working on Level File Parser.
 
