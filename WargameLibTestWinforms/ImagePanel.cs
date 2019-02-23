@@ -65,10 +65,10 @@ namespace WargameLibTestWinforms
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            //base.OnPaint(e);
             if (!_dirty && _buffer != null)
             {
-                //_buffer.Render(CreateGraphics()); Not required
+                _buffer.Render(e.Graphics);
                 return;
             }
 
@@ -114,7 +114,7 @@ namespace WargameLibTestWinforms
                     g.DrawString("No Image", new Font("Arial", 16), Brushes.Black, 10, 10);
                 }
             }
-            _buffer.Render(CreateGraphics());
+            _buffer.Render(e.Graphics);
         }
     }
 }
