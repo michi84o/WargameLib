@@ -59,13 +59,18 @@ namespace WargameLibTestWinforms
             }
         }
 
+        public LevelPanel()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            //base.OnPaint(e);
 
             if (!_dirty && _buffer != null)
             {
-                _buffer.Render(CreateGraphics());
+                _buffer.Render(/*CreateGraphics()*/ e.Graphics);
                 return;
             }
 
@@ -153,7 +158,7 @@ namespace WargameLibTestWinforms
                 }
             }
 
-            _buffer.Render(CreateGraphics());
+            _buffer.Render(/*CreateGraphics()*/ e.Graphics);
             _dirty = false;
         }
     }

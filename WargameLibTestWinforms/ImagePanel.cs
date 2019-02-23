@@ -43,6 +43,7 @@ namespace WargameLibTestWinforms
         public ImagePanel()
         {
             //DoubleBuffered = true;
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         void DoResize()
