@@ -24,7 +24,7 @@ Next steps:
 - Complete Level Viewer
 - Section Viewer
 
-Status: Working on Level File Parser.
+Status: Abandoned, sorry!
 
 ![Screenshot of Testprogram](Images/screenshot1.png)
 
